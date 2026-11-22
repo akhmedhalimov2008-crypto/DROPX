@@ -1,1 +1,136 @@
 
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DROPX — GTA Cases</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#090a0f;color:#fff;font-family:Arial,sans-serif}
+header{height:75px;background:#11131b;border-bottom:1px solid #292b35;display:flex;align-items:center;justify-content:space-between;padding:0 7%;position:sticky;top:0;z-index:5}
+.logo{font-size:29px;font-weight:900;letter-spacing:2px}
+.logo span{color:#ff303d}
+nav{display:flex;gap:25px}
+nav a{color:#aaa;text-decoration:none;font-size:14px}
+nav a:hover{color:#ff3845}
+.balance{background:#21141a;border:1px solid #68232d;padding:12px 18px;border-radius:9px;color:#ff6570}
+.hero{text-align:center;padding:65px 15px 45px;background:radial-gradient(ellipse at top,#43151d 0%,#151019 40%,#090a0f 80%)}
+.hero h1{font-size:55px;margin:10px 0}
+.hero h1 span{color:#ff3544}
+.hero p{color:#aaa;font-size:16px}
+.tag{color:#ff6973;letter-spacing:4px;font-size:12px}
+.container{max-width:1150px;margin:auto;padding:25px 20px}
+.section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
+.section-title h2{font-size:25px}
+.section-title span{color:#ff505e}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.case{background:linear-gradient(145deg,#191d28,#101219);border:1px solid #2c303d;border-radius:14px;padding:15px;text-align:center;transition:.25s}
+.case:hover{transform:translateY(-6px);border-color:#ff3949;box-shadow:0 10px 35px #ff263322}
+.art{height:145px;border-radius:10px;background:radial-gradient(circle,#58212b,#17151d);display:flex;align-items:center;justify-content:center;font-size:65px;margin-bottom:15px}
+.case h3{margin:8px}
+.case p{color:#999;font-size:13px}
+.case button,.openbtn{background:#ef3344;color:white;border:0;padding:12px 23px;border-radius:8px;font-weight:bold;cursor:pointer}
+.case button:hover,.openbtn:hover{background:#ff5966}
+.inventory{margin-top:65px}
+.inventory-list{background:#141720;padding:20px;border-radius:12px;color:#aaa}
+footer{text-align:center;padding:35px;color:#666;border-top:1px solid #222;margin-top:65px}
+.modal{display:none;position:fixed;inset:0;background:#000d;z-index:10;align-items:center;justify-content:center;padding:15px}
+.modal-box{background:#171923;border:1px solid #ff3949;border-radius:16px;padding:30px;text-align:center;width:100%;max-width:420px}
+.reward{font-size:75px;margin:20px}
+.modal-box h2{color:#ff5361}
+.close{background:#333;color:white;border:0;padding:11px 25px;border-radius:8px;margin-top:15px;cursor:pointer}
+@media(max-width:650px){header{padding:0 15px}nav{gap:10px}nav a{font-size:11px}.logo{font-size:23px}.hero h1{font-size:38px}}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">DROP<span>X</span></div>
+<nav>
+<a href="#cases">Кейсы</a>
+<a href="#inventory">Инвентарь</a>
+</nav>
+<div class="balance">Бесплатные кейсы</div>
+</header>
+
+<section class="hero">
+<div class="tag">WELCOME TO DROPX</div>
+<h1>ОТКРЫВАЙ <span>КЕЙСЫ</span></h1>
+<p>Твоя GTA-коллекция начинается здесь.</p>
+</section>
+
+<main class="container">
+<div class="section-title" id="cases">
+<h2>🔥 GTA CASES</h2>
+<span>Бесплатное открытие</span>
+</div>
+<div class="grid" id="casesGrid"></div>
+
+<section class="inventory" id="inventory">
+<div class="section-title">
+<h2>🎒 Мой инвентарь</h2>
+<span id="count">0 предметов</span>
+</div>
+<div class="inventory-list" id="inventoryList">
+Пока здесь пусто. Открой свой первый кейс!
+</div>
+</section>
+</main>
+
+<div class="modal" id="modal">
+<div class="modal-box">
+<div class="tag">DROPX REWARD</div>
+<h2>ТВОЙ ПРЕДМЕТ!</h2>
+<div class="reward" id="rewardIcon">🎁</div>
+<h3 id="rewardName">Предмет</h3>
+<p id="rewardDesc">Поздравляем!</p>
+<button class="close" onclick="closeModal()">ЗАКРЫТЬ</button>
+</div>
+</div>
+
+<footer>DROPX © 2026 — FAN-MADE VIRTUAL CASE COLLECTION</footer>
+
+<script>
+const cases=[
+{name:"STARTER CASE",icon:"🎁",desc:"Начни свою коллекцию",items:["Зелёный автомобиль","Бейсболка","Уличный стиль","Спортивные очки"]},
+{name:"LOS SANTOS",icon:"🚗",desc:"Атмосфера Los Santos",items:["Спортивный автомобиль","Золотые часы","Куртка Los Santos","Неоновые очки"]},
+{name:"SUPER CASE",icon:"💎",desc:"Редкие виртуальные предметы",items:["Алмазный аксессуар","Золотая цепь","Редкий костюм","Спортивный автомобиль"]},
+{name:"LEGEND CASE",icon:"👑",desc:"Легендарная коллекция",items:["Королевская корона","Легендарный костюм","Золотой автомобиль","Редкие часы"]}
+];
+let inventory=[];
+let opened={};
+function render(){
+document.getElementById("casesGrid").innerHTML=cases.map((c,i)=>`
+<div class="case">
+<div class="art">${c.icon}</div>
+<h3>${c.name}</h3>
+<p>${c.desc}</p>
+<button onclick="openCase(${i})">${opened[i]?"ОТКРЫТЬ ЕЩЁ":"ОТКРЫТЬ БЕСПЛАТНО"}</button>
+</div>`).join("");
+}
+function openCase(i){
+let items=cases[i].items;
+let item=items[Math.floor(Math.random()*items.length)];
+inventory.unshift({name:item,icon:cases[i].icon});
+opened[i]=true;
+document.getElementById("rewardIcon").textContent=cases[i].icon;
+document.getElementById("rewardName").textContent=item;
+document.getElementById("rewardDesc").textContent="Предмет добавлен в твою коллекцию!";
+document.getElementById("modal").style.display="flex";
+renderInventory();
+render();
+}
+function closeModal(){
+document.getElementById("modal").style.display="none";
+}
+function renderInventory(){
+document.getElementById("count").textContent=inventory.length+" предметов";
+document.getElementById("inventoryList").innerHTML=inventory.length?
+inventory.map(x=>`<div style="padding:12px;border-bottom:1px solid #30333e">${x.icon} ${x.name}</div>`).join(""):
+"Пока здесь пусто. Открой свой первый кейс!";
+}
+render();
+</script>
+</body>
+</html>
+
