@@ -1,295 +1,1066 @@
-
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en" class="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DROPX — Gaming Platform</title>
-<style>
-:root{--bg:#090b10;--panel:#11151e;--panel2:#181e29;--red:#ff3548;--muted:#9299a8;--line:#252c39}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:white;font-family:Arial,sans-serif}
-button{cursor:pointer;font-weight:bold}
-header{height:76px;background:#10141c;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 5%;position:sticky;top:0;z-index:10}
-.logo{font-size:29px;font-weight:1000;letter-spacing:2px}
-.logo span{color:var(--red)}
-nav{display:flex;gap:23px}
-nav button{background:none;border:0;color:#aab0bd;font-size:14px}
-nav button:hover,.active{color:var(--red)!important}
-.header-right{display:flex;align-items:center;gap:12px}
-.balance{background:#21151b;border:1px solid #64232d;padding:12px;border-radius:9px;color:#ff6876}
-.avatar{background:var(--red);width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-weight:bold}
-.layout{display:flex;max-width:1500px;margin:auto;min-height:85vh}
-aside{width:215px;flex-shrink:0;padding:25px 15px;border-right:1px solid var(--line)}
-.side-title{font-size:11px;color:#697283;letter-spacing:2px;margin:20px 10px 12px}
-.side button{width:100%;display:block;text-align:left;background:none;color:#aeb5c3;border:0;padding:13px 12px;border-radius:8px;margin-bottom:4px}
-.side button:hover,.side button.active{background:#26171e;color:white!important}
-main{padding:30px;width:100%;min-width:0}
-.page{display:none}.page.active{display:block}
-.hero{background:radial-gradient(ellipse at 80% 30%,#79202d,#29151e 40%,#151822 75%);border:1px solid #54232d;border-radius:17px;padding:43px;margin-bottom:30px;position:relative;overflow:hidden}
-.hero:after{content:"DROPX";position:absolute;right:15px;bottom:-35px;font-size:115px;font-weight:1000;color:#ffffff0b}
-.hero h1{font-size:43px;margin:10px 0}
-.hero h1 span{color:#ff4557}
-.hero p{color:#c0aeb2}
-.tag{font-size:11px;color:#ff6876;letter-spacing:3px}
-.primary{background:var(--red);color:white;border:0;padding:13px 20px;border-radius:8px}
-.primary:hover{background:#ff5968}
-.secondary{background:#242a36;color:white;border:1px solid #343c4c;padding:12px 18px;border-radius:8px}
-.section-head{display:flex;justify-content:space-between;align-items:center;margin:30px 0 17px}
-.section-head h2{font-size:21px;margin:0}
-.muted{color:var(--muted);font-size:13px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:16px}
-.card{background:linear-gradient(145deg,#171c27,#10141c);border:1px solid var(--line);border-radius:12px;padding:14px;transition:.2s}
-.card:hover{border-color:#b62e40;transform:translateY(-3px)}
-.art{height:135px;background:radial-gradient(circle,#46232d,#171923 70%);border-radius:9px;display:grid;place-items:center;margin-bottom:14px;overflow:hidden}
-.art img{width:100%;height:100%;object-fit:contain}
-.emoji{font-size:65px}
-.card h3{font-size:15px;margin:8px 0}
-.card p{font-size:12px;color:var(--muted)}
-.price{color:#ff6976;font-weight:bold;margin:13px 0}
-.card button{width:100%}
-.pill{font-size:10px;padding:5px 8px;background:#292d3a;border-radius:5px;color:#c6cad3}
-.pill.red{background:#461c27;color:#ff8190}
-.tabs{display:flex;gap:9px;margin:20px 0;flex-wrap:wrap}
-.tabs button{background:#171c26;color:#aaa;border:1px solid var(--line);padding:10px 15px;border-radius:7px}
-.tabs button.active{background:#451d27;border-color:#a82c3e;color:white!important}
-.inventory-row{display:flex;align-items:center;gap:15px;background:#141923;padding:13px;border:1px solid var(--line);border-radius:9px;margin:9px 0}
-.inventory-row .emoji{font-size:35px}
-.inventory-row .info{flex:1}
-.empty{padding:35px;text-align:center;color:#9299a8;background:#121721;border-radius:10px}
-.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:15px;margin:20px 0}
-.stat{padding:20px;background:#151a24;border:1px solid var(--line);border-radius:10px}
-.stat strong{font-size:26px;display:block;margin-top:12px}
-.profile{display:flex;gap:20px;align-items:center;background:#151a24;padding:25px;border-radius:13px}
-.big-avatar{width:75px;height:75px;border-radius:18px;background:linear-gradient(135deg,#ff3349,#771d32);display:grid;place-items:center;font-size:30px;font-weight:bold}
-.notice{padding:14px;background:#171d29;border-left:3px solid var(--red);border-radius:7px;color:#abb2c0;font-size:13px;margin:20px 0}
-footer{text-align:center;color:#626b7b;padding:35px;border-top:1px solid var(--line);font-size:12px}
-.mobile-menu{display:none}
-@media(max-width:850px){nav{display:none}aside{width:65px;padding:15px 7px}.side-title{display:none}.side button{font-size:0;text-align:center;padding:15px 5px}.side button:first-letter{font-size:18px}main{padding:18px}.hero{padding:28px 20px}.hero h1{font-size:33px}}
-@media(max-width:500px){header{padding:0 12px}.logo{font-size:23px}.balance{font-size:11px;padding:9px}.layout{min-height:80vh}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.card{padding:9px}.art{height:100px}.emoji{font-size:48px}.card h3{font-size:12px}.hero h1{font-size:29px}.hero:after{font-size:65px}.section-head h2{font-size:18px}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SKINOZ - Cyber Case Hub & Gaming Platform</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Outfit:wght@300;400;500;600;700;800;900&family=Rajdhani:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        display: ['Rajdhani', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        cyber: {
+                            bg: '#080b11',
+                            card: '#101522',
+                            cardHover: '#161d2e',
+                            border: '#1d273a',
+                            accent: '#00f2fe',
+                            pink: '#ff007f',
+                            purple: '#8b5cf6',
+                            gold: '#fbbf24',
+                        }
+                    },
+                    boxShadow: {
+                        'neon-blue': '0 0 20px rgba(0, 242, 254, 0.3)',
+                        'neon-purple': '0 0 20px rgba(139, 92, 246, 0.3)',
+                        'neon-gold': '0 0 20px rgba(251, 191, 36, 0.3)',
+                        'neon-green': '0 0 20px rgba(16, 185, 129, 0.3)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #080b11; }
+        ::-webkit-scrollbar-thumb { background: #1d273a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00f2fe; }
+
+        .bg-grid {
+            background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 0);
+            background-size: 20px 20px;
+        }
+
+        .roulette-container {
+            mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+        }
+
+        .roulette-track {
+            display: flex;
+            will-change: transform;
+        }
+
+        /* Pulse / Glow Utilities */
+        @keyframes subtlePulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(1.02); }
+        }
+        .animate-subtle { animation: subtlePulse 3s ease-in-out infinite; }
+    </style>
 </head>
-<body>
+<body class="bg-cyber-bg text-slate-200 font-sans min-h-screen flex flex-col selection:bg-cyan-500 selection:text-black bg-grid">
 
-<header>
- <div class="logo">DROP<span>X</span></div>
- <nav>
-  <button onclick="showPage('home')">Главная</button>
-  <button onclick="showPage('cases')">Кейсы</button>
-  <button onclick="showPage('market')">Маркет</button>
-  <button onclick="showPage('inventory')">Инвентарь</button>
- </nav>
- <div class="header-right">
-  <div class="balance">◆ <span id="balance">1000</span> DX</div>
-  <div class="avatar">D</div>
- </div>
-</header>
+    <!-- TOP LIVE DROPS FEED TICKER -->
+    <div class="bg-slate-950/90 border-b border-cyber-border/70 py-1.5 px-4 text-xs backdrop-blur-md relative z-30 overflow-hidden">
+        <div class="max-w-7xl mx-auto flex items-center gap-3">
+            <div class="flex items-center gap-2 text-cyan-400 font-display font-bold uppercase tracking-wider shrink-0 text-[11px] bg-cyan-950/60 border border-cyan-800/50 px-2.5 py-0.5 rounded-md">
+                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                <span data-i18n="live_drops">LIVE DROPS</span>
+            </div>
+            <div class="flex items-center gap-2.5 overflow-x-auto no-scrollbar scroll-smooth py-0.5" id="live-drops-feed">
+                <!-- Ticker nodes appended dynamically -->
+            </div>
+        </div>
+    </div>
 
-<div class="layout">
-<aside>
- <div class="side">
-  <div class="side-title">МЕНЮ</div>
-  <button class="active" data-page="home" onclick="showPage('home')">⌂ Главная</button>
-  <button data-page="cases" onclick="showPage('cases')">▣ Кейсы</button>
-  <button data-page="market" onclick="showPage('market')">◈ Маркет</button>
-  <button data-page="inventory" onclick="showPage('inventory')">▤ Инвентарь</button>
-  <div class="side-title">АККАУНТ</div>
-  <button data-page="profile" onclick="showPage('profile')">♙ Профиль</button>
-  <button data-page="bonus" onclick="showPage('bonus')">🎁 Бонусы</button>
-  <div class="side-title">ИНФОРМАЦИЯ</div>
-  <button data-page="news" onclick="showPage('news')">▤ Новости</button>
-  <button data-page="faq" onclick="showPage('faq')">? Помощь</button>
- </div>
-</aside>
+    <!-- MAIN NAVIGATION BAR -->
+    <header class="sticky top-0 z-40 bg-cyber-bg/95 backdrop-blur-md border-b border-cyber-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+            
+            <!-- Logo & Brand -->
+            <div class="flex items-center gap-3 cursor-pointer shrink-0" onclick="switchNavTab('cases')">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-cyan-500 via-indigo-600 to-fuchsia-600 flex items-center justify-center text-white font-black text-2xl shadow-neon-blue">
+                    <i class="fa-solid fa-cube text-xl"></i>
+                </div>
+                <div>
+                    <div class="font-display text-2xl font-black tracking-widest bg-gradient-to-r from-white via-slate-100 to-cyan-400 bg-clip-text text-transparent flex items-center gap-2 leading-none">
+                        SKINOZ
+                        <span class="text-[10px] px-2 py-0.5 bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 rounded font-mono font-semibold uppercase">GTA HUB</span>
+                    </div>
+                    <p class="text-[10px] text-slate-400 tracking-wider uppercase font-mono mt-0.5">Gaming & Loot Platform</p>
+                </div>
+            </div>
 
-<main>
+            <!-- Navigation Links -->
+            <nav class="hidden lg:flex items-center gap-1 bg-cyber-card/80 border border-cyber-border p-1.5 rounded-xl font-display uppercase tracking-wider text-xs font-bold">
+                <button onclick="switchNavTab('cases')" id="nav-btn-cases" class="nav-tab-btn px-4 py-2 rounded-lg text-cyan-400 bg-cyan-500/10 border border-cyan-500/30 transition flex items-center gap-2">
+                    <i class="fa-solid fa-box-open"></i>
+                    <span data-i18n="nav_cases">Cases</span>
+                </button>
+                <button onclick="switchNavTab('battles')" id="nav-btn-battles" class="nav-tab-btn px-4 py-2 rounded-lg text-slate-400 hover:text-white transition flex items-center gap-2">
+                    <i class="fa-solid fa-swords"></i>
+                    <span data-i18n="nav_battles">Battles</span>
+                </button>
+                <button onclick="switchNavTab('upgrade')" id="nav-btn-upgrade" class="nav-tab-btn px-4 py-2 rounded-lg text-slate-400 hover:text-white transition flex items-center gap-2">
+                    <i class="fa-solid fa-bolt"></i>
+                    <span data-i18n="nav_upgrade">Upgrade</span>
+                </button>
+                <button onclick="switchNavTab('contracts')" id="nav-btn-contracts" class="nav-tab-btn px-4 py-2 rounded-lg text-slate-400 hover:text-white transition flex items-center gap-2">
+                    <i class="fa-solid fa-file-signature"></i>
+                    <span data-i18n="nav_contracts">Contracts</span>
+                </button>
+                <button onclick="switchNavTab('games')" id="nav-btn-games" class="nav-tab-btn px-4 py-2 rounded-lg text-slate-400 hover:text-white transition flex items-center gap-2">
+                    <i class="fa-solid fa-gamepad"></i>
+                    <span data-i18n="nav_games">Games</span>
+                </button>
+                <button onclick="switchNavTab('clans')" id="nav-btn-clans" class="nav-tab-btn px-4 py-2 rounded-lg text-slate-400 hover:text-white transition flex items-center gap-2">
+                    <i class="fa-solid fa-users-rays"></i>
+                    <span data-i18n="nav_clans">Clans</span>
+                </button>
+            </nav>
 
-<section class="page active" id="home">
- <div class="hero">
-  <div class="tag">WELCOME TO DROPX</div>
-  <h1>YOUR WORLD.<br><span>YOUR SKINS.</span></h1>
-  <p>Игровая платформа CS2 и GTA. Собирай свою коллекцию!</p>
-  <button class="primary" onclick="showPage('cases')">СМОТРЕТЬ КЕЙСЫ →</button>
- </div>
- <div class="section-head"><h2>🔥 Популярные предметы</h2><span class="muted">DROPX COLLECTION</span></div>
- <div class="grid" id="featured"></div>
- <div class="notice">DROPX — независимый фанатский проект. Предметы и DX — виртуальные, не имеют денежной стоимости и не обмениваются на реальные деньги.</div>
-</section>
+            <!-- User Balance, Language Switcher, Controls -->
+            <div class="flex items-center gap-3">
+                
+                <!-- Language Toggle (RU / EN) -->
+                <button onclick="toggleLanguage()" class="px-2.5 py-1.5 bg-cyber-card hover:bg-slate-800 border border-cyber-border rounded-xl text-slate-300 font-mono text-xs flex items-center gap-1.5 transition">
+                    <i class="fa-solid fa-globe text-cyan-400"></i>
+                    <span id="lang-indicator" class="font-bold">EN</span>
+                </button>
 
-<section class="page" id="cases">
- <div class="section-head"><h2>▣ Каталог кейсов</h2><span class="muted">Виртуальная коллекция</span></div>
- <div class="tabs">
-  <button class="active" onclick="filterCases('all',this)">Все</button>
-  <button onclick="filterCases('CS2',this)">CS2</button>
-  <button onclick="filterCases('GTA',this)">GTA</button>
- </div>
- <div class="grid" id="caseGrid"></div>
-</section>
+                <!-- Balance Box -->
+                <div class="bg-slate-900 border border-emerald-500/30 rounded-xl p-1.5 pl-3 flex items-center gap-3">
+                    <div class="flex flex-col">
+                        <span class="text-[9px] uppercase font-mono text-slate-400 tracking-wider">Crystals</span>
+                        <span class="font-mono font-bold text-emerald-400 text-sm leading-tight" id="user-balance-display">1,250.00</span>
+                    </div>
+                    <button onclick="openTopUpModal()" class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-display font-bold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1 transition active:scale-95">
+                        <i class="fa-solid fa-plus text-xs"></i>
+                        <span data-i18n="btn_topup">TOP UP</span>
+                    </button>
+                </div>
 
-<section class="page" id="market">
- <div class="section-head"><h2>◈ Виртуальный маркет</h2><span class="muted">Покупка за DX</span></div>
- <p class="muted">Выбирай предметы по фиксированной цене. Все покупки виртуальные.</p>
- <div class="grid" id="marketGrid"></div>
-</section>
+                <!-- Inventory Drawer Trigger -->
+                <button onclick="toggleInventoryModal()" class="relative p-2.5 bg-cyber-card hover:bg-slate-800 border border-cyber-border rounded-xl text-slate-300 hover:text-white transition group" title="Inventory">
+                    <i class="fa-solid fa-vault text-cyan-400 group-hover:scale-110 transition"></i>
+                    <span id="inventory-count-badge" class="absolute -top-1.5 -right-1.5 bg-cyan-500 text-slate-950 font-bold text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-mono">0</span>
+                </button>
 
-<section class="page" id="inventory">
- <div class="section-head"><h2>🎒 Мой инвентарь</h2><span class="muted" id="itemCount">0 предметов</span></div>
- <div id="inventoryGrid"></div>
-</section>
+                <!-- Audio Toggle -->
+                <button onclick="toggleAudio()" id="sound-toggle-btn" class="p-2.5 bg-cyber-card border border-cyber-border rounded-xl text-slate-400 hover:text-cyan-400 transition" title="Sound Effects">
+                    <i class="fa-solid fa-volume-high text-sm" id="sound-icon"></i>
+                </button>
 
-<section class="page" id="profile">
- <div class="section-head"><h2>♙ Мой профиль</h2></div>
- <div class="profile">
-  <div class="big-avatar">D</div>
-  <div><h2 style="margin:0">DROPX Player</h2><p class="muted">Участник DROPX</p><span class="pill red">LEVEL 1</span></div>
- </div>
- <div class="stat-grid">
-  <div class="stat"><span class="muted">Баланс DX</span><strong id="profileBalance">1000</strong></div>
-  <div class="stat"><span class="muted">Предметы</span><strong id="profileItems">0</strong></div>
-  <div class="stat"><span class="muted">Покупки</span><strong id="profilePurchases">0</strong></div>
- </div>
- <div class="notice">Это локальный демонстрационный профиль. Для настоящих аккаунтов потребуется отдельный сервер и база данных.</div>
-</section>
+            </div>
+        </div>
 
-<section class="page" id="bonus">
- <div class="section-head"><h2>🎁 Ежедневный бонус</h2></div>
- <div class="card" style="max-width:420px">
-  <div class="art"><div class="emoji">🎁</div></div>
-  <h3>Бесплатный ежедневный подарок</h3>
-  <p>Забери 100 виртуальных DX. Один раз в день.</p>
-  <button class="primary" id="bonusBtn" onclick="dailyBonus()">ПОЛУЧИТЬ 100 DX</button>
- </div>
-</section>
+        <!-- Mobile Navigation Bottom Bar -->
+        <div class="lg:hidden flex items-center justify-around border-t border-cyber-border/80 bg-cyber-bg/95 py-2 px-2 font-display uppercase text-[11px] font-bold">
+            <button onclick="switchNavTab('cases')" class="nav-tab-btn flex flex-col items-center gap-0.5 text-cyan-400">
+                <i class="fa-solid fa-box-open"></i><span>Cases</span>
+            </button>
+            <button onclick="switchNavTab('battles')" class="nav-tab-btn flex flex-col items-center gap-0.5 text-slate-400">
+                <i class="fa-solid fa-swords"></i><span>Battles</span>
+            </button>
+            <button onclick="switchNavTab('upgrade')" class="nav-tab-btn flex flex-col items-center gap-0.5 text-slate-400">
+                <i class="fa-solid fa-bolt"></i><span>Upgrade</span>
+            </button>
+            <button onclick="switchNavTab('contracts')" class="nav-tab-btn flex flex-col items-center gap-0.5 text-slate-400">
+                <i class="fa-solid fa-file-signature"></i><span>Contracts</span>
+            </button>
+            <button onclick="switchNavTab('games')" class="nav-tab-btn flex flex-col items-center gap-0.5 text-slate-400">
+                <i class="fa-solid fa-gamepad"></i><span>Games</span>
+            </button>
+            <button onclick="switchNavTab('clans')" class="nav-tab-btn flex flex-col items-center gap-0.5 text-slate-400">
+                <i class="fa-solid fa-users-rays"></i><span>Clans</span>
+            </button>
+        </div>
+    </header>
 
-<section class="page" id="news">
- <div class="section-head"><h2>▤ Новости DROPX</h2></div>
- <div class="card"><span class="pill red">ОБНОВЛЕНИЕ</span><h3>Добро пожаловать в DROPX!</h3><p>Наша игровая платформа открыта. Скоро появятся новые предметы и коллекции.</p></div>
- <div class="card" style="margin-top:12px"><span class="pill">CS2 + GTA</span><h3>Две игровые вселенные</h3><p>Собирай виртуальные предметы из двух популярных игровых миров.</p></div>
-</section>
+    <!-- ========================================== -->
+    <!--            MAIN DYNAMIC SECTIONS           -->
+    <!-- ========================================== -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 w-full space-y-6">
 
-<section class="page" id="faq">
- <div class="section-head"><h2>? Помощь и правила</h2></div>
- <div class="card"><h3>Что такое DX?</h3><p>DX — внутренняя виртуальная единица DROPX, не являющаяся деньгами.</p></div>
- <div class="card" style="margin-top:12px"><h3>Можно ли вывести DX?</h3><p>Нет. DX и предметы предназначены только для коллекции внутри демонстрационного сайта.</p></div>
- <div class="card" style="margin-top:12px"><h3>Как получить предмет?</h3><p>Выбери предмет в маркете и нажми кнопку покупки. Также можно забирать бесплатные предметы из каталога.</p></div>
-</section>
+        <!-- ================= SECTION 1: CASES CATALOG ================= -->
+        <section id="sec-cases" class="tab-content space-y-6">
+            
+            <!-- Hero Announcement Banner -->
+            <div class="relative overflow-hidden rounded-2xl border border-cyber-border bg-gradient-to-r from-slate-900 via-cyber-card to-slate-900 p-6 md:p-8">
+                <div class="absolute right-0 top-0 bottom-0 w-1/2 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-cyan-500/10 via-transparent to-transparent pointer-events-none"></div>
+                <div class="relative z-10 max-w-2xl space-y-3">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-mono font-bold uppercase tracking-wider">
+                        <i class="fa-solid fa-bolt"></i> <span data-i18n="hero_badge">GTA V & GTA VI EXCLUSIVE DROPS</span>
+                    </div>
+                    <h1 class="font-display text-3xl sm:text-4xl lg:text-5xl font-black uppercase text-white tracking-wide leading-none">
+                        UNBOX EXOTIC <span class="bg-gradient-to-r from-cyan-400 via-teal-300 to-indigo-400 bg-clip-text text-transparent">GTA CARS & SKINS</span>
+                    </h1>
+                    <p class="text-slate-400 text-xs sm:text-sm leading-relaxed" data-i18n="hero_desc">
+                        Open GTA V heist cases, Vice City rewards, rare CS2 knives, Rust loot, and daily bonus containers with verified fair odds.
+                    </p>
+                </div>
+            </div>
 
-</main>
-</div>
+            <!-- Filter Controls Bar -->
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-cyber-border pb-5">
+                
+                <!-- Category Buttons -->
+                <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 lg:pb-0 font-display text-xs font-bold" id="cases-category-filters">
+                    <!-- Dynamic categories injected by JS -->
+                </div>
 
-<footer>DROPX © 2026 · FAN-MADE GAMING PLATFORM · NOT AFFILIATED WITH VALVE OR ROCKSTAR</footer>
+                <!-- Search and Sorting -->
+                <div class="flex items-center gap-3">
+                    <div class="relative w-full sm:w-60">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+                        <input type="text" id="case-search-input" oninput="handleSearch(this.value)" placeholder="Search case name..." class="w-full bg-cyber-card border border-cyber-border rounded-xl pl-9 pr-8 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition font-sans">
+                    </div>
+                    <select id="case-sort-select" onchange="handleSort(this.value)" class="bg-cyber-card border border-cyber-border rounded-xl px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-cyan-500 cursor-pointer font-sans">
+                        <option value="default">Sort: Featured</option>
+                        <option value="price-asc">Price: Low to High</option>
+                        <option value="price-desc">Price: High to Low</option>
+                    </select>
+                </div>
 
-<script>
-const products=[
-{id:1,name:"AK-47 | Redline",game:"CS2",icon:"🔫",price:250,rarity:"Epic"},
-{id:2,name:"AWP | Neon",game:"CS2",icon:"🎯",price:400,rarity:"Legendary"},
-{id:3,name:"Karambit | Red",game:"CS2",icon:"🔪",price:600,rarity:"Legendary"},
-{id:4,name:"M4A1-S | Cyber",game:"CS2",icon:"🔫",price:300,rarity:"Rare"},
-{id:5,name:"Los Santos Car",game:"GTA",icon:"🏎️",price:350,rarity:"Epic"},
-{id:6,name:"Golden Watch",game:"GTA",icon:"⌚",price:180,rarity:"Rare"},
-{id:7,name:"Diamond Chain",game:"GTA",icon:"💎",price:500,rarity:"Legendary"},
-{id:8,name:"Street Outfit",game:"GTA",icon:"🧥",price:150,rarity:"Common"}
-];
-const cases=[
-{id:1,name:"RED CASE",game:"CS2",icon:"🟥",desc:"Коллекция красных предметов",price:0,reward:1},
-{id:2,name:"SNIPER CASE",game:"CS2",icon:"🎯",desc:"Снайперская коллекция",price:0,reward:2},
-{id:3,name:"KNIFE CASE",game:"CS2",icon:"🔪",desc:"Коллекция ножей",price:0,reward:3},
-{id:4,name:"LOS SANTOS",game:"GTA",icon:"🏎️",desc:"Автомобили Los Santos",price:0,reward:5},
-{id:5,name:"GOLD CASE",game:"GTA",icon:"💎",desc:"Золотая коллекция",price:0,reward:7},
-{id:6,name:"STREET CASE",game:"GTA",icon:"🧥",desc:"Уличный стиль",price:0,reward:8}
-];
-let balance=Number(localStorage.getItem("dropx_balance")??1000);
-let inventory=JSON.parse(localStorage.getItem("dropx_inventory")||"[]");
-let purchases=Number(localStorage.getItem("dropx_purchases")||0);
-let claimed=localStorage.getItem("dropx_bonus")==new Date().toDateString();
-function save(){
- localStorage.setItem("dropx_balance",balance);
- localStorage.setItem("dropx_inventory",JSON.stringify(inventory));
- localStorage.setItem("dropx_purchases",purchases);
- update();
-}
-function update(){
- document.getElementById("balance").textContent=balance;
- document.getElementById("profileBalance").textContent=balance;
- document.getElementById("profileItems").textContent=inventory.length;
- document.getElementById("profilePurchases").textContent=purchases;
- document.getElementById("itemCount").textContent=inventory.length+" предметов";
- document.getElementById("bonusBtn").disabled=claimed;
- document.getElementById("bonusBtn").textContent=claimed?"БОНУС УЖЕ ПОЛУЧЕН":"ПОЛУЧИТЬ 100 DX";
-}
-function showPage(id){
- document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
- document.getElementById(id).classList.add("active");
- document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
- if(id==="inventory")renderInventory();
- update();
- window.scrollTo(0,0);
-}
-function productCard(p,button){
- return `<div class="card"><div class="art"><div class="emoji">${p.icon}</div></div>
- <span class="pill">${p.game}</span> <span class="pill red">${p.rarity}</span>
- <h3>${p.name}</h3><div class="price">◆ ${p.price} DX</div>${button}</div>`;
-}
-function renderMarket(){
- document.getElementById("marketGrid").innerHTML=products.map(p=>productCard(p,
- `<button class="primary" onclick="buy(${p.id})">КУПИТЬ</button>`)).join("");
-}
-function renderFeatured(){
- document.getElementById("featured").innerHTML=products.slice(0,4).map(p=>productCard(p,
- `<button class="secondary" onclick="showPage('market')">ПОДРОБНЕЕ</button>`)).join("");
-}
-function filterCases(type,btn){
- document.querySelectorAll("#cases .tabs button").forEach(b=>b.classList.remove("active"));
- btn.classList.add("active");
- renderCases(type);
-}
-function renderCases(type="all"){
- let list=cases.filter(c=>type==="all"||c.game===type);
- document.getElementById("caseGrid").innerHTML=list.map(c=>`
- <div class="card"><div class="art"><div class="emoji">${c.icon}</div></div>
- <span class="pill">${c.game}</span><h3>${c.name}</h3>
- <p>${c.desc}</p><div class="price">Бесплатный предмет</div>
- <button class="primary" onclick="claimCase(${c.id})">ЗАБРАТЬ ПРЕДМЕТ</button></div>`).join("");
-}
-function claimCase(id){
- let c=cases.find(x=>x.id===id);
- let key="dropx_case_"+id+"_"+new Date().toDateString();
- if(localStorage.getItem(key)){alert("Ты уже забрал предмет из этого набора сегодня.");return}
- let p=products.find(x=>x.id===c.reward);
- inventory.push({...p,uid:Date.now()});
- localStorage.setItem(key,"yes");
- save();
- alert("Предмет добавлен в инвентарь: "+p.name);
-}
-function buy(id){
- let p=products.find(x=>x.id===id);
- if(balance<p.price){alert("Недостаточно DX. Получи ежедневный бонус.");return}
- balance-=p.price;
- inventory.push({...p,uid:Date.now()});
- purchases++;
- save();
- alert("Предмет добавлен в твой инвентарь!");
-}
-function renderInventory(){
- let el=document.getElementById("inventoryGrid");
- if(!inventory.length){el.innerHTML='<div class="empty">🎒<br><br>Инвентарь пуст.<br>Загляни в маркет или забери бесплатный предмет!</div>';return}
- el.innerHTML=inventory.map(p=>`
- <div class="inventory-row"><div class="emoji">${p.icon}</div>
- <div class="info"><b>${p.name}</b><p class="muted">${p.game} · ${p.rarity}</p></div>
- <span class="pill">В коллекции</span></div>`).join("");
-}
-function dailyBonus(){
- if(claimed)return;
- claimed=true;balance+=100;
- localStorage.setItem("dropx_bonus",new Date().toDateString());
- save();
- alert("Ты получил 100 DX!");
-}
-renderFeatured();
-renderMarket();
-renderCases();
-renderInventory();
-update();
-</script>
+            </div>
+
+            <!-- Cases Grid -->
+            <div>
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="font-display text-lg font-black uppercase tracking-wider text-white flex items-center gap-2">
+                        <span id="current-cat-heading">GTA Cases</span>
+                        <span class="text-xs font-mono font-normal text-slate-400 bg-slate-900 border border-slate-800 px-2.5 py-0.5 rounded-lg" id="case-count-indicator">0 cases</span>
+                    </h2>
+                </div>
+                <div id="cases-grid-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                    <!-- Cases injected here -->
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ================= SECTION 2: CASE BATTLES ================= -->
+        <section id="sec-battles" class="tab-content hidden space-y-6">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-cyber-card border border-cyber-border p-6 rounded-2xl">
+                <div>
+                    <h2 class="font-display text-2xl font-black uppercase text-white" data-i18n="battles_title">Case Battle Arena</h2>
+                    <p class="text-xs text-slate-400" data-i18n="battles_desc">Compete with bots or players. The player with the highest total unboxed skin value claims all loot!</p>
+                </div>
+                <button onclick="openCreateBattleModal()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-400 to-indigo-600 hover:from-cyan-300 hover:to-indigo-500 text-slate-950 font-display font-black text-xs uppercase tracking-wider transition shadow-neon-blue">
+                    <i class="fa-solid fa-plus mr-1"></i> Create Battle Room
+                </button>
+            </div>
+
+            <!-- Active Battles List -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="battles-room-list">
+                <!-- Battle rooms injected by JS -->
+            </div>
+        </section>
+
+        <!-- ================= SECTION 3: SKIN UPGRADER ================= -->
+        <section id="sec-upgrade" class="tab-content hidden space-y-6">
+            <div class="bg-cyber-card border border-cyber-border rounded-2xl p-6 text-center space-y-2">
+                <h2 class="font-display text-2xl font-black uppercase text-white" data-i18n="upgrade_title">Skin Upgrader</h2>
+                <p class="text-xs text-slate-400" data-i18n="upgrade_desc">Select an item from your inventory or shop entry skin, pick your desired multiplier, and spin the wheel of fortune!</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                <!-- Left: Source Item Selection -->
+                <div class="lg:col-span-4 bg-cyber-card border border-cyber-border rounded-2xl p-5 space-y-4">
+                    <div class="font-display font-bold text-sm text-slate-300 uppercase flex items-center justify-between">
+                        <span>1. Input Item</span>
+                        <span class="text-xs text-cyan-400 font-mono" id="upgrader-input-value">$0.00</span>
+                    </div>
+                    <div id="upgrader-input-box" class="h-44 border-2 border-dashed border-cyber-border rounded-xl flex flex-col items-center justify-center p-4 text-center cursor-pointer hover:border-cyan-500/50 transition" onclick="toggleInventoryModal()">
+                        <i class="fa-solid fa-box-open text-3xl text-slate-600 mb-2"></i>
+                        <span class="text-xs text-slate-400 font-semibold">Click to select skin from inventory</span>
+                    </div>
+                </div>
+
+                <!-- Center: Multiplier & Wheel Spin Arena -->
+                <div class="lg:col-span-4 bg-slate-950 border border-cyber-border rounded-2xl p-6 flex flex-col items-center justify-center text-center space-y-6 min-h-[340px]">
+                    
+                    <!-- Circular Chance Dial Graphic -->
+                    <div class="relative w-44 h-44 flex items-center justify-center">
+                        <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="42" stroke="#1d273a" stroke-width="8" fill="transparent" />
+                            <circle id="upgrader-chance-circle" cx="50" cy="50" r="42" stroke="#00f2fe" stroke-width="8" fill="transparent" stroke-dasharray="263.89" stroke-dashoffset="131.9" class="transition-all duration-300" />
+                        </svg>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center font-mono">
+                            <span class="text-2xl font-black text-white" id="upgrader-chance-percent">50.00%</span>
+                            <span class="text-[10px] text-slate-500 uppercase">Win Chance</span>
+                        </div>
+                    </div>
+
+                    <!-- Multiplier Buttons -->
+                    <div class="flex items-center gap-2">
+                        <button onclick="setUpgraderMultiplier(1.5)" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-cyber-border text-xs font-mono font-bold hover:border-cyan-500 text-slate-300">1.5x</button>
+                        <button onclick="setUpgraderMultiplier(2.0)" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-cyber-border text-xs font-mono font-bold hover:border-cyan-500 text-slate-300">2.0x</button>
+                        <button onclick="setUpgraderMultiplier(5.0)" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-cyber-border text-xs font-mono font-bold hover:border-cyan-500 text-slate-300">5.0x</button>
+                        <button onclick="setUpgraderMultiplier(10.0)" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-cyber-border text-xs font-mono font-bold hover:border-cyan-500 text-slate-300">10.0x</button>
+                    </div>
+
+                    <button id="upgrader-spin-btn" onclick="executeUpgradeRoll()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-400 via-teal-300 to-indigo-500 font-display font-black text-slate-950 uppercase tracking-wider text-sm transition shadow-neon-blue">
+                        UPGRADE SKIN
+                    </button>
+                </div>
+
+                <!-- Right: Target Item Selection -->
+                <div class="lg:col-span-4 bg-cyber-card border border-cyber-border rounded-2xl p-5 space-y-4">
+                    <div class="font-display font-bold text-sm text-slate-300 uppercase flex items-center justify-between">
+                        <span>2. Target Item</span>
+                        <span class="text-xs text-emerald-400 font-mono" id="upgrader-target-value">$0.00</span>
+                    </div>
+                    <div id="upgrader-target-box" class="h-44 border border-cyber-border rounded-xl flex flex-col items-center justify-center p-4 text-center">
+                        <img id="upgrader-target-img" src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=200" class="w-20 h-20 object-contain mb-2">
+                        <span id="upgrader-target-name" class="text-xs font-bold text-white">Grotti Itali RSX</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 4: CONTRACTS ================= -->
+        <section id="sec-contracts" class="tab-content hidden space-y-6">
+            <div class="bg-cyber-card border border-cyber-border rounded-2xl p-6 text-center space-y-2">
+                <h2 class="font-display text-2xl font-black uppercase text-white" data-i18n="contracts_title">Skin Contracts (Trade-Up)</h2>
+                <p class="text-xs text-slate-400" data-i18n="contracts_desc">Combine 3 to 10 items from your inventory to forge 1 higher value skin calculated from total input value!</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                <!-- Contract Slots Grid -->
+                <div class="md:col-span-8 bg-slate-950 border border-cyber-border rounded-2xl p-6 space-y-4">
+                    <div class="flex items-center justify-between border-b border-cyber-border pb-3">
+                        <span class="font-display font-bold text-sm text-slate-300 uppercase">Selected Items (<span id="contract-count">0</span> / 10)</span>
+                        <button onclick="clearContractSlots()" class="text-xs text-cyan-400 hover:underline font-mono">Clear All</button>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-5 gap-3" id="contract-slots-grid">
+                        <!-- 10 slots initialized by JS -->
+                    </div>
+                </div>
+
+                <!-- Contract Summary & Execution -->
+                <div class="md:col-span-4 bg-cyber-card border border-cyber-border rounded-2xl p-6 space-y-6 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <h3 class="font-display font-extrabold text-lg uppercase text-white">Output Valuation</h3>
+                        <div class="space-y-2 font-mono text-xs">
+                            <div class="flex justify-between text-slate-400">
+                                <span>Total Input Value:</span>
+                                <span class="text-white font-bold" id="contract-total-input">$0.00</span>
+                            </div>
+                            <div class="flex justify-between text-slate-400">
+                                <span>Estimated Output Range:</span>
+                                <span class="text-emerald-400 font-bold" id="contract-output-range">$0.00 - $0.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="contract-craft-btn" onclick="executeContractCraft()" class="w-full py-4 rounded-xl bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 font-display font-black text-white uppercase tracking-wider text-sm transition shadow-neon-purple opacity-50 cursor-not-allowed">
+                        CRAFT CONTRACT
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 5: QUICK MINI GAMES ================= -->
+        <section id="sec-games" class="tab-content hidden space-y-6">
+            
+            <!-- Game Selector Tabs -->
+            <div class="flex items-center gap-2 border-b border-cyber-border pb-4 font-display font-bold text-xs uppercase">
+                <button onclick="switchMiniGame('crash')" id="game-tab-crash" class="px-4 py-2 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400">
+                    <i class="fa-solid fa-chart-line mr-1"></i> Crash
+                </button>
+                <button onclick="switchMiniGame('mines')" id="game-tab-mines" class="px-4 py-2 rounded-xl bg-slate-900 border border-cyber-border text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-land-mine-on mr-1"></i> Mines 5x5
+                </button>
+                <button onclick="switchMiniGame('double')" id="game-tab-double" class="px-4 py-2 rounded-xl bg-slate-900 border border-cyber-border text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-dharmachakra mr-1"></i> Double / X50
+                </button>
+            </div>
+
+            <!-- GAME 1: CRASH -->
+            <div id="minigame-crash" class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                <!-- Controls -->
+                <div class="md:col-span-4 bg-cyber-card border border-cyber-border rounded-2xl p-5 space-y-4">
+                    <div class="font-display font-bold text-sm text-slate-300 uppercase">Crash Bet Controls</div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-mono text-slate-400">BET AMOUNT (CRYSTALS)</label>
+                        <input type="number" id="crash-bet-input" value="10" min="1" class="w-full bg-slate-950 border border-cyber-border rounded-xl px-3 py-2 text-xs font-mono text-emerald-400 font-bold focus:outline-none focus:border-cyan-500">
+                    </div>
+                    <button id="crash-action-btn" onclick="handleCrashAction()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 font-display font-black text-slate-950 uppercase tracking-wider text-sm shadow-neon-green">
+                        PLACE BET
+                    </button>
+                </div>
+
+                <!-- Display Canvas / Graphic -->
+                <div class="md:col-span-8 bg-slate-950 border border-cyber-border rounded-2xl p-6 h-80 relative flex items-center justify-center overflow-hidden">
+                    <canvas id="crash-canvas" class="absolute inset-0 w-full h-full"></canvas>
+                    <div class="relative z-10 text-center font-mono">
+                        <div class="text-5xl font-black text-white tracking-tight" id="crash-multiplier-text">1.00x</div>
+                        <div class="text-xs text-slate-400 font-sans mt-1" id="crash-status-text">Next round starting soon...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GAME 2: MINES -->
+            <div id="minigame-mines" class="hidden grid grid-cols-1 md:grid-cols-12 gap-6">
+                <div class="md:col-span-4 bg-cyber-card border border-cyber-border rounded-2xl p-5 space-y-4">
+                    <div class="font-display font-bold text-sm text-slate-300 uppercase">Mines Setup</div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-mono text-slate-400">BET AMOUNT</label>
+                        <input type="number" id="mines-bet-input" value="25" min="1" class="w-full bg-slate-950 border border-cyber-border rounded-xl px-3 py-2 text-xs font-mono text-emerald-400 font-bold">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-mono text-slate-400">MINES COUNT (1 - 24)</label>
+                        <input type="number" id="mines-count-input" value="3" min="1" max="24" class="w-full bg-slate-950 border border-cyber-border rounded-xl px-3 py-2 text-xs font-mono text-white">
+                    </div>
+                    <button id="mines-start-btn" onclick="startMinesGame()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-400 to-indigo-600 font-display font-black text-slate-950 uppercase tracking-wider text-sm shadow-neon-blue">
+                        START GAME
+                    </button>
+                    <button id="mines-cashout-btn" onclick="cashoutMinesGame()" class="hidden w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-400 to-teal-500 font-display font-black text-slate-950 uppercase tracking-wider text-sm shadow-neon-green">
+                        CASHOUT (<span id="mines-current-win">$0.00</span>)
+                    </button>
+                </div>
+
+                <div class="md:col-span-8 bg-slate-950 border border-cyber-border rounded-2xl p-6 flex items-center justify-center">
+                    <div id="mines-grid" class="grid grid-cols-5 gap-3 max-w-xs w-full">
+                        <!-- 25 Tiles initialized by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- GAME 3: DOUBLE / X50 -->
+            <div id="minigame-double" class="hidden space-y-6">
+                <div class="bg-slate-950 border border-cyber-border rounded-2xl p-6 text-center space-y-4">
+                    <div class="text-xs font-mono text-slate-400">ROLLING IN: <span id="double-timer" class="text-cyan-400 font-bold">10s</span></div>
+                    <div id="double-wheel-bar" class="flex gap-2 justify-center overflow-hidden py-2">
+                        <!-- Wheel segments -->
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    <button onclick="placeDoubleBet('red')" class="bg-red-950/60 border border-red-500/50 hover:bg-red-900/60 p-4 rounded-xl text-center space-y-1">
+                        <div class="font-display font-extrabold text-red-400 uppercase">RED (2x)</div>
+                        <div class="text-[10px] font-mono text-slate-400">Multiplies x2</div>
+                    </button>
+                    <button onclick="placeDoubleBet('black')" class="bg-slate-900 border border-slate-700 hover:bg-slate-800 p-4 rounded-xl text-center space-y-1">
+                        <div class="font-display font-extrabold text-slate-200 uppercase">BLACK (2x)</div>
+                        <div class="text-[10px] font-mono text-slate-400">Multiplies x2</div>
+                    </button>
+                    <button onclick="placeDoubleBet('green')" class="bg-emerald-950/60 border border-emerald-500/50 hover:bg-emerald-900/60 p-4 rounded-xl text-center space-y-1">
+                        <div class="font-display font-extrabold text-emerald-400 uppercase">GREEN (14x)</div>
+                        <div class="text-[10px] font-mono text-slate-400">Multiplies x14</div>
+                    </button>
+                    <button onclick="placeDoubleBet('gold')" class="bg-amber-950/60 border border-amber-500/50 hover:bg-amber-900/60 p-4 rounded-xl text-center space-y-1">
+                        <div class="font-display font-extrabold text-amber-400 uppercase">GOLD (50x)</div>
+                        <div class="text-[10px] font-mono text-slate-400">Multiplies x50</div>
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ================= SECTION 6: CLANS & TEAMS ================= -->
+        <section id="sec-clans" class="tab-content hidden space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                <!-- Territory Capture Banner -->
+                <div class="md:col-span-12 bg-gradient-to-r from-purple-950 via-cyber-card to-indigo-950 border border-purple-500/30 rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="space-y-1">
+                        <span class="text-[10px] font-mono text-purple-400 uppercase tracking-widest font-bold">LOS SANTOS TERRITORY CAPTURE MODE</span>
+                        <h3 class="font-display text-2xl font-black text-white uppercase">Grove Street Clan Domination</h3>
+                        <p class="text-xs text-slate-400">Top clan members split 10,000 Crystal payout every 24 hours.</p>
+                    </div>
+                    <div class="text-center font-mono bg-slate-950 border border-purple-800 px-4 py-2.5 rounded-xl">
+                        <div class="text-[10px] text-slate-400">NEXT PAYOFF IN</div>
+                        <div class="text-lg font-bold text-cyan-400">03:14:22</div>
+                    </div>
+                </div>
+
+                <!-- Leaderboards -->
+                <div class="md:col-span-8 bg-cyber-card border border-cyber-border rounded-2xl p-6 space-y-4">
+                    <h3 class="font-display font-extrabold text-lg uppercase text-white">Top Clans Leaderboard</h3>
+                    <div class="space-y-2 text-xs font-mono" id="clans-leaderboard-list">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Clan Join / Create -->
+                <div class="md:col-span-4 bg-cyber-card border border-cyber-border rounded-2xl p-6 space-y-4">
+                    <h3 class="font-display font-extrabold text-lg uppercase text-white">Create or Join Clan</h3>
+                    <div class="space-y-3 text-xs">
+                        <input type="text" placeholder="Enter Clan Tag (e.g. VCTR)" class="w-full bg-slate-950 border border-cyber-border rounded-xl px-3 py-2 text-white">
+                        <button onclick="alert('Clan joined successfully!')" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-400 to-indigo-600 font-display font-black text-slate-950 uppercase tracking-wider">
+                            JOIN CLAN
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-950 border-t border-cyber-border py-8 px-4 text-xs text-slate-500 mt-12">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+            <div class="space-y-1">
+                <div class="font-display font-extrabold text-slate-300 text-sm tracking-wider">SKINOZ INTERACTIVE PLATFORM</div>
+                <p>© 2026 Skinoz Inc. Replicating GTA V & GTA VI Case Opening Experience.</p>
+            </div>
+            <div class="flex items-center gap-6 font-mono text-[11px] text-slate-400">
+                <a href="#" class="hover:text-cyan-400 transition">Provably Fair</a>
+                <a href="#" class="hover:text-cyan-400 transition">Terms</a>
+                <a href="#" class="hover:text-cyan-400 transition">Support API</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========================================== -->
+    <!--            MODALS & OVERLAYS               -->
+    <!-- ========================================== -->
+
+    <!-- CASE ROULETTE OPENING MODAL -->
+    <div id="case-opening-modal" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-xl hidden flex items-center justify-center p-4">
+        <div class="bg-cyber-card border border-cyber-border rounded-2xl w-full max-w-4xl p-6 relative space-y-6 shadow-2xl">
+            <button onclick="closeCaseModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <div class="flex items-center gap-4 border-b border-cyber-border pb-4">
+                <img id="modal-case-img" src="" class="w-16 h-16 object-contain bg-slate-900 border border-cyber-border p-2 rounded-xl">
+                <div>
+                    <span class="text-[10px] font-mono text-cyan-400 uppercase font-bold" id="modal-case-category">GTA V</span>
+                    <h3 class="font-display text-2xl font-black text-white" id="modal-case-title">Case Title</h3>
+                </div>
+            </div>
+
+            <!-- Roulette Track -->
+            <div class="relative bg-slate-950 border border-cyber-border rounded-xl p-4 overflow-hidden">
+                <div class="absolute left-1/2 top-0 bottom-0 w-1 bg-cyan-400 z-20 -translate-x-1/2 shadow-neon-blue"></div>
+                <div class="roulette-container overflow-hidden py-2">
+                    <div id="roulette-track" class="roulette-track gap-3 py-2"></div>
+                </div>
+            </div>
+
+            <!-- Spin Controls -->
+            <div class="flex items-center justify-between gap-4">
+                <button id="fast-spin-toggle" onclick="toggleFastSpin()" class="px-3 py-2 rounded-xl bg-slate-900 border border-cyber-border text-slate-400 text-xs font-mono">
+                    Fast Spin: <strong id="fast-spin-status" class="text-slate-300">OFF</strong>
+                </button>
+                <button id="open-case-btn" onclick="startRouletteSpin()" class="px-8 py-3.5 rounded-xl font-display font-black text-slate-950 bg-gradient-to-r from-cyan-400 to-indigo-400 hover:brightness-110 transition shadow-neon-blue flex items-center gap-2">
+                    <span>OPEN FOR</span>
+                    <span id="modal-case-price" class="font-mono text-lg">$15.00</span>
+                </button>
+            </div>
+
+            <!-- Contains Items -->
+            <div class="border-t border-cyber-border/60 pt-4">
+                <div class="text-xs font-mono text-slate-400 uppercase mb-3">Case Contents</div>
+                <div id="case-items-list" class="grid grid-cols-2 sm:grid-cols-5 gap-2 max-h-40 overflow-y-auto"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- REWARD WIN MODAL -->
+    <div id="win-modal" class="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-2xl hidden flex items-center justify-center p-4">
+        <div class="bg-cyber-card border border-cyber-border rounded-3xl w-full max-w-md p-8 text-center relative space-y-6 shadow-2xl">
+            <div class="text-cyan-400 font-mono text-xs uppercase font-bold">CONGRATULATIONS!</div>
+            <img id="win-item-img" src="" class="w-36 h-36 object-contain mx-auto">
+            <div class="space-y-1">
+                <h3 id="win-item-name" class="font-display text-2xl font-black text-white">Item Name</h3>
+                <div id="win-item-value" class="text-emerald-400 font-mono font-bold text-xl">$120.00</div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="sellWonItem()" class="py-3 rounded-xl bg-slate-800 border border-emerald-500/40 text-emerald-400 font-bold text-xs font-mono">
+                    SELL (+<span id="win-sell-price">$120.00</span>)
+                </button>
+                <button onclick="keepWonItem()" class="py-3 rounded-xl bg-cyan-400 text-slate-950 font-bold text-xs font-mono">
+                    KEEP IN INVENTORY
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- INVENTORY DRAWER -->
+    <div id="inventory-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex justify-end">
+        <div class="w-full max-w-md bg-cyber-card border-l border-cyber-border h-full p-6 flex flex-col justify-between shadow-2xl">
+            <div class="space-y-4 flex-1 flex flex-col overflow-hidden">
+                <div class="flex items-center justify-between border-b border-cyber-border pb-4">
+                    <h3 class="font-display text-xl font-bold text-white">Your Inventory</h3>
+                    <button onclick="toggleInventoryModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="flex items-center justify-between text-xs text-slate-400 font-mono">
+                    <span>Total Value: <strong id="inventory-total-value" class="text-emerald-400">$0.00</strong></span>
+                    <button onclick="sellAllInventory()" class="text-cyan-400 hover:underline">Sell All</button>
+                </div>
+                <div id="inventory-items-container" class="grid grid-cols-2 gap-3 overflow-y-auto flex-1 pr-1"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOP UP MODAL -->
+    <div id="topup-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="bg-cyber-card border border-cyber-border rounded-2xl w-full max-w-sm p-6 relative space-y-4 shadow-2xl">
+            <button onclick="closeTopUpModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="font-display text-xl font-black text-white">Deposit Balance</h3>
+            <div class="grid grid-cols-3 gap-2">
+                <button onclick="addDemoBalance(100)" class="p-3 bg-slate-900 border border-cyber-border text-cyan-400 font-mono font-bold rounded-xl">+$100</button>
+                <button onclick="addDemoBalance(500)" class="p-3 bg-slate-900 border border-cyber-border text-cyan-400 font-mono font-bold rounded-xl">+$500</button>
+                <button onclick="addDemoBalance(2000)" class="p-3 bg-slate-900 border border-cyber-border text-cyan-400 font-mono font-bold rounded-xl">+$2,000</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CREATE BATTLE MODAL -->
+    <div id="create-battle-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="bg-cyber-card border border-cyber-border rounded-2xl w-full max-w-md p-6 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center">
+                <h3 class="font-display text-xl font-black text-white">Create Battle Room</h3>
+                <button onclick="closeCreateBattleModal()" class="text-slate-400"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="space-y-2 text-xs">
+                <label class="text-slate-400">Select Case for Battle</label>
+                <select id="battle-case-select" class="w-full bg-slate-950 border border-cyber-border rounded-xl p-2.5 text-white"></select>
+            </div>
+            <button onclick="submitCreateBattle()" class="w-full py-3 rounded-xl bg-cyan-400 text-slate-950 font-display font-black">
+                LAUNCH BATTLE
+            </button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!--            PLATFORM CORE JAVASCRIPT        -->
+    <!-- ========================================== -->
+    <script>
+        /* ================= Translation Engine (RU / EN) ================= */
+        const TRANSLATIONS = {
+            EN: {
+                live_drops: 'LIVE DROPS',
+                nav_cases: 'Cases',
+                nav_battles: 'Battles',
+                nav_upgrade: 'Upgrade',
+                nav_contracts: 'Contracts',
+                nav_games: 'Games',
+                nav_clans: 'Clans',
+                btn_topup: 'TOP UP',
+                hero_badge: 'GTA V & GTA VI EXCLUSIVE DROPS',
+                hero_desc: 'Open GTA V heist cases, Vice City rewards, rare CS2 knives, Rust loot, and daily bonus containers with verified fair odds.',
+                battles_title: 'Case Battle Arena',
+                battles_desc: 'Compete with bots or players. The player with the highest total unboxed skin value claims all loot!',
+                upgrade_title: 'Skin Upgrader',
+                upgrade_desc: 'Select an item from your inventory or shop entry skin, pick your desired multiplier, and spin the wheel of fortune!',
+                contracts_title: 'Skin Contracts (Trade-Up)',
+                contracts_desc: 'Combine 3 to 10 items from your inventory to forge 1 higher value skin calculated from total input value!'
+            },
+            RU: {
+                live_drops: 'ЖИВЫЕ ДРОПЫ',
+                nav_cases: 'Кейсы',
+                nav_battles: 'Битвы',
+                nav_upgrade: 'Апгрейд',
+                nav_contracts: 'Контракты',
+                nav_games: 'Игры',
+                nav_clans: 'Кланы',
+                btn_topup: 'ПОПОЛНИТЬ',
+                hero_badge: 'ЭКСКЛЮЗИВНЫЕ ДРОПЫ GTA V И GTA VI',
+                hero_desc: 'Открывайте кейсы ограблений GTA V, награды Vice City, редкие ножи CS2 и лут Rust с гарантированной честностью.',
+                battles_title: 'Арена Битв Кейсов',
+                battles_desc: 'Соревнуйтесь с ботами или игроками. Игрок с наибольшей суммой выбитых скинов забирает весь куш!',
+                upgrade_title: 'Апгрейдер Скинов',
+                upgrade_desc: 'Выберите предмет из инвентаря, укажите желаемый множитель и испытайте удачу!',
+                contracts_title: 'Контракты Скинов',
+                contracts_desc: 'Объедините от 3 до 10 предметов из инвентаря для создания 1 более дорогого скина!'
+            }
+        };
+
+        let currentLang = 'EN';
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'EN' ? 'RU' : 'EN';
+            document.getElementById('lang-indicator').innerText = currentLang;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (TRANSLATIONS[currentLang][key]) {
+                    el.innerText = TRANSLATIONS[currentLang][key];
+                }
+            });
+        }
+
+        /* ================= Items Catalog ================= */
+        const RARITIES = {
+            COMMON: { name: 'Restricted', color: '#3b82f6', bgClass: 'border-blue-500/40 bg-blue-950/40' },
+            CLASSIFIED: { name: 'Classified', color: '#a855f7', bgClass: 'border-purple-500/40 bg-purple-950/40' },
+            COVERT: { name: 'Covert', color: '#ef4444', bgClass: 'border-red-500/40 bg-red-950/40' },
+            GOLD: { name: 'Exotic Gold', color: '#f59e0b', bgClass: 'border-amber-500/50 bg-amber-950/50' },
+        };
+
+        const ITEMS = {
+            gta_grotti: { id: 'gta_grotti', name: 'Grotti Itali RSX', value: 1250.00, rarity: RARITIES.GOLD, img: 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=200' },
+            gta_oppressor: { id: 'gta_oppressor', name: 'Pegassi Oppressor Mk II', value: 850.00, rarity: RARITIES.COVERT, img: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=200' },
+            gta_truffade: { id: 'gta_truffade', name: 'Truffade Thrax Custom', value: 420.00, rarity: RARITIES.CLASSIFIED, img: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=200' },
+            gta_bag: { id: 'gta_bag', name: 'Gold Bar Heist Bag', value: 150.00, rarity: RARITIES.COMMON, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=200' },
+            cs_karambit: { id: 'cs_karambit', name: 'Karambit Fade', value: 1800.00, rarity: RARITIES.GOLD, img: 'https://images.unsplash.com/photo-1589241062272-c0a000072dfa?w=200' },
+            cs_ak47: { id: 'cs_ak47', name: 'AK-47 Asiimov', value: 210.00, rarity: RARITIES.CLASSIFIED, img: 'https://images.unsplash.com/photo-1533106901860-70f2f5187747?w=200' },
+            rust_lr300: { id: 'rust_lr300', name: 'Alien Red LR-300', value: 380.00, rarity: RARITIES.COVERT, img: 'https://images.unsplash.com/photo-1563089145-599997674d42?w=200' }
+        };
+
+        const CASES = [
+            { id: 'vice-city', name: 'Vice City Heist', category: 'gta', price: 35.00, img: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=200', items: [ITEMS.gta_grotti, ITEMS.gta_oppressor, ITEMS.gta_bag] },
+            { id: 'gta-6-hype', name: 'GTA VI Hype Case', category: 'gta', price: 95.00, img: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=200', items: [ITEMS.gta_grotti, ITEMS.gta_truffade] },
+            { id: 'dave-norton', name: 'Dave Norton Special', category: 'gta', price: 15.00, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=200', items: [ITEMS.gta_bag, ITEMS.gta_truffade] },
+            { id: 'cs2-knives', name: 'CS2 Knife Case', category: 'cs2', price: 120.00, img: 'https://images.unsplash.com/photo-1589241062272-c0a000072dfa?w=200', items: [ITEMS.cs_karambit, ITEMS.cs_ak47] },
+            { id: 'rust-drop', name: 'Rust Supply Case', category: 'rust', price: 20.00, img: 'https://images.unsplash.com/photo-1563089145-599997674d42?w=200', items: [ITEMS.rust_lr300, ITEMS.gta_bag] },
+        ];
+
+        let state = {
+            balance: 1250.00,
+            activeCategory: 'gta',
+            activeNavTab: 'cases',
+            inventory: [],
+            currentCase: null,
+            isSpinning: false,
+            fastSpin: false,
+            soundEnabled: true,
+            contractSelectedIds: [],
+            selectedUpgraderItem: null
+        };
+
+        /* ================= Web Audio AudioFX ================= */
+        const AudioFX = {
+            ctx: null,
+            init() { if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)(); },
+            playTick() {
+                if (!state.soundEnabled) return;
+                try {
+                    this.init();
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(400, this.ctx.currentTime);
+                    gain.gain.setValueAtTime(0.05, this.ctx.currentTime);
+                    osc.connect(gain); gain.connect(this.ctx.destination);
+                    osc.start(); osc.stop(this.ctx.currentTime + 0.03);
+                } catch(e){}
+            },
+            playWin() {
+                if (!state.soundEnabled) return;
+                try {
+                    this.init();
+                    const now = this.ctx.currentTime;
+                    [523, 659, 783, 1046].forEach((f, i) => {
+                        const osc = this.ctx.createOscillator();
+                        const gain = this.ctx.createGain();
+                        osc.frequency.setValueAtTime(f, now + i * 0.08);
+                        gain.gain.setValueAtTime(0.1, now + i * 0.08);
+                        osc.connect(gain); gain.connect(this.ctx.destination);
+                        osc.start(now + i * 0.08); osc.stop(now + i * 0.08 + 0.3);
+                    });
+                } catch(e){}
+            }
+        };
+
+        window.onload = function() {
+            renderCaseFilters();
+            renderCasesGrid();
+            initLiveDropsFeed();
+            initContractSlots();
+            initClansLeaderboard();
+            initMinesGrid();
+            updateBalanceUI();
+        };
+
+        function switchNavTab(tabName) {
+            state.activeNavTab = tabName;
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            const activeSec = document.getElementById(`sec-${tabName}`);
+            if (activeSec) activeSec.classList.remove('hidden');
+
+            document.querySelectorAll('.nav-tab-btn').forEach(btn => {
+                btn.className = 'nav-tab-btn px-4 py-2 rounded-lg text-slate-400 hover:text-white transition flex items-center gap-2';
+            });
+            const activeBtn = document.getElementById(`nav-btn-${tabName}`);
+            if (activeBtn) {
+                activeBtn.className = 'nav-tab-btn px-4 py-2 rounded-lg text-cyan-400 bg-cyan-500/10 border border-cyan-500/30 transition flex items-center gap-2';
+            }
+        }
+
+        /* ================= Cases rendering ================= */
+        function renderCaseFilters() {
+            const categories = [
+                { id: 'gta', label: 'GTA V / VI' },
+                { id: 'cs2', label: 'CS2' },
+                { id: 'rust', label: 'Rust' },
+                { id: 'all', label: 'All Collections' }
+            ];
+            const container = document.getElementById('cases-category-filters');
+            container.innerHTML = categories.map(cat => {
+                const isActive = state.activeCategory === cat.id;
+                const style = isActive ? 'bg-cyan-400 text-slate-950 font-extrabold' : 'bg-cyber-card border border-cyber-border text-slate-400 hover:text-white';
+                return `<button onclick="setCaseCategory('${cat.id}')" class="px-4 py-2 rounded-xl transition ${style}">${cat.label}</button>`;
+            }).join('');
+        }
+
+        function setCaseCategory(catId) {
+            state.activeCategory = catId;
+            renderCaseFilters();
+            renderCasesGrid();
+        }
+
+        function renderCasesGrid() {
+            const container = document.getElementById('cases-grid-container');
+            const filtered = CASES.filter(c => state.activeCategory === 'all' || c.category === state.activeCategory);
+            document.getElementById('case-count-indicator').innerText = `${filtered.length} cases`;
+
+            container.innerHTML = filtered.map(c => `
+                <div onclick="openCaseModal('${c.id}')" class="bg-cyber-card border border-cyber-border rounded-2xl p-4 flex flex-col justify-between hover:border-cyan-500/50 hover:shadow-neon-blue transition cursor-pointer group">
+                    <div class="text-[10px] font-mono text-cyan-400 uppercase font-bold">${c.category}</div>
+                    <img src="${c.img}" class="w-24 h-24 object-contain mx-auto my-3 group-hover:scale-110 transition">
+                    <div class="space-y-1">
+                        <div class="font-display font-bold text-white truncate">${c.name}</div>
+                        <div class="flex items-center justify-between font-mono">
+                            <span class="text-emerald-400 font-bold text-xs">$${c.price.toFixed(2)}</span>
+                            <span class="text-[10px] bg-cyan-400 text-slate-950 px-2 py-0.5 rounded font-bold">OPEN</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        /* ================= Case Opening Modal ================= */
+        function openCaseModal(caseId) {
+            const c = CASES.find(x => x.id === caseId);
+            if (!c) return;
+            state.currentCase = c;
+            document.getElementById('modal-case-title').innerText = c.name;
+            document.getElementById('modal-case-category').innerText = c.category.toUpperCase();
+            document.getElementById('modal-case-price').innerText = `$${c.price.toFixed(2)}`;
+            document.getElementById('modal-case-img').src = c.img;
+
+            document.getElementById('case-items-list').innerHTML = c.items.map(item => `
+                <div class="bg-slate-900 border ${item.rarity.bgClass} p-2 rounded-xl text-center">
+                    <img src="${item.img}" class="w-10 h-10 object-contain mx-auto">
+                    <div class="text-[10px] text-white font-bold truncate">${item.name}</div>
+                    <div class="text-[9px] text-emerald-400 font-mono">$${item.value.toFixed(2)}</div>
+                </div>
+            `).join('');
+
+            setupRouletteTrack();
+            document.getElementById('case-opening-modal').classList.remove('hidden');
+        }
+
+        function closeCaseModal() {
+            if (state.isSpinning) return;
+            document.getElementById('case-opening-modal').classList.add('hidden');
+        }
+
+        function setupRouletteTrack() {
+            const track = document.getElementById('roulette-track');
+            track.style.transition = 'none';
+            track.style.transform = 'translateX(0px)';
+            let html = '';
+            for (let i = 0; i < 60; i++) {
+                const item = state.currentCase.items[Math.floor(Math.random() * state.currentCase.items.length)];
+                html += `
+                    <div class="shrink-0 w-28 h-32 bg-cyber-card border-b-4 rounded-xl p-2 flex flex-col items-center justify-between" style="border-bottom-color: ${item.rarity.color}">
+                        <img src="${item.img}" class="w-12 h-12 object-contain">
+                        <div class="text-[9px] font-bold text-white truncate w-full text-center">${item.name}</div>
+                        <div class="text-[9px] font-mono text-emerald-400">$${item.value.toFixed(2)}</div>
+                    </div>
+                `;
+            }
+            track.innerHTML = html;
+        }
+
+        function startRouletteSpin() {
+            if (state.isSpinning) return;
+            if (state.balance < state.currentCase.price) {
+                alert('Insufficient Crystals balance!');
+                return;
+            }
+            state.balance -= state.currentCase.price;
+            updateBalanceUI();
+            state.isSpinning = true;
+
+            const wonItem = state.currentCase.items[Math.floor(Math.random() * state.currentCase.items.length)];
+            state.lastWonItem = wonItem;
+
+            const track = document.getElementById('roulette-track');
+            const duration = state.fastSpin ? 1.5 : 4.5;
+            track.style.transition = `transform ${duration}s cubic-bezier(0.1, 0.9, 0.1, 1.0)`;
+            track.style.transform = `translateX(-3500px)`;
+
+            let timer = setInterval(() => AudioFX.playTick(), 120);
+
+            setTimeout(() => {
+                clearInterval(timer);
+                AudioFX.playWin();
+                showWinModal(wonItem);
+                state.isSpinning = false;
+            }, duration * 1000);
+        }
+
+        function showWinModal(item) {
+            document.getElementById('win-item-img').src = item.img;
+            document.getElementById('win-item-name').innerText = item.name;
+            document.getElementById('win-item-value').innerText = `$${item.value.toFixed(2)}`;
+            document.getElementById('win-sell-price').innerText = `$${item.value.toFixed(2)}`;
+            document.getElementById('win-modal').classList.remove('hidden');
+            if (typeof confetti === 'function') confetti({ particleCount: 60, spread: 60 });
+        }
+
+        function sellWonItem() {
+            state.balance += state.lastWonItem.value;
+            updateBalanceUI();
+            document.getElementById('win-modal').classList.add('hidden');
+        }
+
+        function keepWonItem() {
+            state.inventory.push({ ...state.lastWonItem, invId: Date.now() });
+            updateInventoryUI();
+            document.getElementById('win-modal').classList.add('hidden');
+        }
+
+        /* ================= Inventory & Modals ================= */
+        function updateBalanceUI() {
+            document.getElementById('user-balance-display').innerText = state.balance.toFixed(2);
+        }
+
+        function updateInventoryUI() {
+            document.getElementById('inventory-count-badge').innerText = state.inventory.length;
+            const container = document.getElementById('inventory-items-container');
+            const totalVal = state.inventory.reduce((acc, x) => acc + x.value, 0);
+            document.getElementById('inventory-total-value').innerText = `$${totalVal.toFixed(2)}`;
+
+            if (state.inventory.length === 0) {
+                container.innerHTML = `<div class="col-span-2 text-center text-slate-500 text-xs py-8">Inventory is empty.</div>`;
+                return;
+            }
+
+            container.innerHTML = state.inventory.map(item => `
+                <div class="bg-slate-900 border border-cyber-border p-2.5 rounded-xl text-center relative">
+                    <img src="${item.img}" class="w-12 h-12 object-contain mx-auto">
+                    <div class="text-[10px] text-white font-bold truncate my-1">${item.name}</div>
+                    <div class="text-[10px] font-mono text-emerald-400">$${item.value.toFixed(2)}</div>
+                </div>
+            `).join('');
+        }
+
+        function toggleInventoryModal() { document.getElementById('inventory-modal').classList.toggle('hidden'); }
+        function openTopUpModal() { document.getElementById('topup-modal').classList.remove('hidden'); }
+        function closeTopUpModal() { document.getElementById('topup-modal').classList.add('hidden'); }
+        function addDemoBalance(amt) { state.balance += amt; updateBalanceUI(); closeTopUpModal(); }
+        function toggleFastSpin() {
+            state.fastSpin = !state.fastSpin;
+            document.getElementById('fast-spin-status').innerText = state.fastSpin ? 'ON' : 'OFF';
+        }
+        function toggleAudio() { state.soundEnabled = !state.soundEnabled; }
+
+        /* ================= Live Feed ================= */
+        function initLiveDropsFeed() {
+            const feed = document.getElementById('live-drops-feed');
+            const all = Object.values(ITEMS);
+            for (let i = 0; i < 10; i++) {
+                const item = all[Math.floor(Math.random() * all.length)];
+                feed.appendChild(createFeedNode(item));
+            }
+        }
+        function createFeedNode(item) {
+            const div = document.createElement('div');
+            div.className = 'flex items-center gap-2 bg-slate-900 border-b-2 border-cyan-400 px-2.5 py-1 rounded-lg shrink-0 text-xs';
+            div.innerHTML = `<img src="${item.img}" class="w-5 h-5 object-contain"><span class="text-[10px] text-slate-300 truncate max-w-[70px]">${item.name}</span><span class="text-[10px] font-mono text-emerald-400">$${item.value.toFixed(0)}</span>`;
+            return div;
+        }
+
+        /* ================= Contracts ================= */
+        function initContractSlots() {
+            const grid = document.getElementById('contract-slots-grid');
+            let html = '';
+            for (let i = 0; i < 10; i++) {
+                html += `<div class="h-20 bg-slate-900 border border-dashed border-cyber-border rounded-xl flex items-center justify-center text-slate-600 text-xs font-mono">+ Slot</div>`;
+            }
+            grid.innerHTML = html;
+        }
+
+        function clearContractSlots() { initContractSlots(); }
+        function executeContractCraft() { alert('Crafting complete! New rare item generated into inventory.'); }
+
+        /* ================= Clans ================= */
+        function initClansLeaderboard() {
+            const clans = [
+                { rank: 1, name: 'Grove Kings', tag: 'GROV', power: '148,200 pts' },
+                { rank: 2, name: 'Vice Cartel', tag: 'VCTR', power: '112,400 pts' },
+                { rank: 3, name: 'Cyber Syndicate', rank: 3, tag: 'CYBR', power: '98,100 pts' }
+            ];
+            document.getElementById('clans-leaderboard-list').innerHTML = clans.map(c => `
+                <div class="flex items-center justify-between bg-slate-900 p-3 rounded-xl border border-cyber-border">
+                    <div class="flex items-center gap-3">
+                        <span class="font-bold text-cyan-400">#${c.rank}</span>
+                        <div>
+                            <div class="font-bold text-white">${c.name} [${c.tag}]</div>
+                            <div class="text-[10px] text-slate-500">Active Territory Dominator</div>
+                        </div>
+                    </div>
+                    <div class="text-emerald-400 font-bold">${c.power}</div>
+                </div>
+            `).join('');
+        }
+
+        /* ================= Mini-Games ================= */
+        function switchMiniGame(game) {
+            ['crash', 'mines', 'double'].forEach(g => {
+                document.getElementById(`minigame-${g}`).classList.add('hidden');
+            });
+            document.getElementById(`minigame-${game}`).classList.remove('hidden');
+        }
+
+        // Mines Game
+        function initMinesGrid() {
+            const grid = document.getElementById('mines-grid');
+            let html = '';
+            for (let i = 0; i < 25; i++) {
+                html += `<button onclick="revealMinesTile(this)" class="w-12 h-12 bg-slate-900 border border-cyber-border rounded-xl font-bold text-slate-600 hover:border-cyan-500 font-mono text-sm">?</button>`;
+            }
+            grid.innerHTML = html;
+        }
+
+        function startMinesGame() {
+            document.getElementById('mines-start-btn').classList.add('hidden');
+            document.getElementById('mines-cashout-btn').classList.remove('hidden');
+            initMinesGrid();
+        }
+
+        function revealMinesTile(btn) {
+            btn.innerHTML = '<i class="fa-solid fa-gem text-cyan-400"></i>';
+            btn.className = 'w-12 h-12 bg-cyan-950 border border-cyan-500/50 rounded-xl font-bold text-cyan-400';
+            document.getElementById('mines-current-win').innerText = '$45.00';
+        }
+
+        function cashoutMinesGame() {
+            alert('Cashed out $45.00!');
+            document.getElementById('mines-start-btn').classList.remove('hidden');
+            document.getElementById('mines-cashout-btn').classList.add('hidden');
+        }
+
+        function openCreateBattleModal() { document.getElementById('create-battle-modal').classList.remove('hidden'); }
+        function closeCreateBattleModal() { document.getElementById('create-battle-modal').classList.add('hidden'); }
+        function submitCreateBattle() { alert('Battle room launched!'); closeCreateBattleModal(); }
+    </script>
 </body>
 </html>
