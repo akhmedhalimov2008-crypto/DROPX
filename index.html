@@ -3,134 +3,293 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DROPX — GTA Cases</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DROPX — Gaming Platform</title>
 <style>
+:root{--bg:#090b10;--panel:#11151e;--panel2:#181e29;--red:#ff3548;--muted:#9299a8;--line:#252c39}
 *{box-sizing:border-box}
-body{margin:0;background:#090a0f;color:#fff;font-family:Arial,sans-serif}
-header{height:75px;background:#11131b;border-bottom:1px solid #292b35;display:flex;align-items:center;justify-content:space-between;padding:0 7%;position:sticky;top:0;z-index:5}
-.logo{font-size:29px;font-weight:900;letter-spacing:2px}
-.logo span{color:#ff303d}
-nav{display:flex;gap:25px}
-nav a{color:#aaa;text-decoration:none;font-size:14px}
-nav a:hover{color:#ff3845}
-.balance{background:#21141a;border:1px solid #68232d;padding:12px 18px;border-radius:9px;color:#ff6570}
-.hero{text-align:center;padding:65px 15px 45px;background:radial-gradient(ellipse at top,#43151d 0%,#151019 40%,#090a0f 80%)}
-.hero h1{font-size:55px;margin:10px 0}
-.hero h1 span{color:#ff3544}
-.hero p{color:#aaa;font-size:16px}
-.tag{color:#ff6973;letter-spacing:4px;font-size:12px}
-.container{max-width:1150px;margin:auto;padding:25px 20px}
-.section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
-.section-title h2{font-size:25px}
-.section-title span{color:#ff505e}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
-.case{background:linear-gradient(145deg,#191d28,#101219);border:1px solid #2c303d;border-radius:14px;padding:15px;text-align:center;transition:.25s}
-.case:hover{transform:translateY(-6px);border-color:#ff3949;box-shadow:0 10px 35px #ff263322}
-.art{height:145px;border-radius:10px;background:radial-gradient(circle,#58212b,#17151d);display:flex;align-items:center;justify-content:center;font-size:65px;margin-bottom:15px}
-.case h3{margin:8px}
-.case p{color:#999;font-size:13px}
-.case button,.openbtn{background:#ef3344;color:white;border:0;padding:12px 23px;border-radius:8px;font-weight:bold;cursor:pointer}
-.case button:hover,.openbtn:hover{background:#ff5966}
-.inventory{margin-top:65px}
-.inventory-list{background:#141720;padding:20px;border-radius:12px;color:#aaa}
-footer{text-align:center;padding:35px;color:#666;border-top:1px solid #222;margin-top:65px}
-.modal{display:none;position:fixed;inset:0;background:#000d;z-index:10;align-items:center;justify-content:center;padding:15px}
-.modal-box{background:#171923;border:1px solid #ff3949;border-radius:16px;padding:30px;text-align:center;width:100%;max-width:420px}
-.reward{font-size:75px;margin:20px}
-.modal-box h2{color:#ff5361}
-.close{background:#333;color:white;border:0;padding:11px 25px;border-radius:8px;margin-top:15px;cursor:pointer}
-@media(max-width:650px){header{padding:0 15px}nav{gap:10px}nav a{font-size:11px}.logo{font-size:23px}.hero h1{font-size:38px}}
+body{margin:0;background:var(--bg);color:white;font-family:Arial,sans-serif}
+button{cursor:pointer;font-weight:bold}
+header{height:76px;background:#10141c;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 5%;position:sticky;top:0;z-index:10}
+.logo{font-size:29px;font-weight:1000;letter-spacing:2px}
+.logo span{color:var(--red)}
+nav{display:flex;gap:23px}
+nav button{background:none;border:0;color:#aab0bd;font-size:14px}
+nav button:hover,.active{color:var(--red)!important}
+.header-right{display:flex;align-items:center;gap:12px}
+.balance{background:#21151b;border:1px solid #64232d;padding:12px;border-radius:9px;color:#ff6876}
+.avatar{background:var(--red);width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-weight:bold}
+.layout{display:flex;max-width:1500px;margin:auto;min-height:85vh}
+aside{width:215px;flex-shrink:0;padding:25px 15px;border-right:1px solid var(--line)}
+.side-title{font-size:11px;color:#697283;letter-spacing:2px;margin:20px 10px 12px}
+.side button{width:100%;display:block;text-align:left;background:none;color:#aeb5c3;border:0;padding:13px 12px;border-radius:8px;margin-bottom:4px}
+.side button:hover,.side button.active{background:#26171e;color:white!important}
+main{padding:30px;width:100%;min-width:0}
+.page{display:none}.page.active{display:block}
+.hero{background:radial-gradient(ellipse at 80% 30%,#79202d,#29151e 40%,#151822 75%);border:1px solid #54232d;border-radius:17px;padding:43px;margin-bottom:30px;position:relative;overflow:hidden}
+.hero:after{content:"DROPX";position:absolute;right:15px;bottom:-35px;font-size:115px;font-weight:1000;color:#ffffff0b}
+.hero h1{font-size:43px;margin:10px 0}
+.hero h1 span{color:#ff4557}
+.hero p{color:#c0aeb2}
+.tag{font-size:11px;color:#ff6876;letter-spacing:3px}
+.primary{background:var(--red);color:white;border:0;padding:13px 20px;border-radius:8px}
+.primary:hover{background:#ff5968}
+.secondary{background:#242a36;color:white;border:1px solid #343c4c;padding:12px 18px;border-radius:8px}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:30px 0 17px}
+.section-head h2{font-size:21px;margin:0}
+.muted{color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:16px}
+.card{background:linear-gradient(145deg,#171c27,#10141c);border:1px solid var(--line);border-radius:12px;padding:14px;transition:.2s}
+.card:hover{border-color:#b62e40;transform:translateY(-3px)}
+.art{height:135px;background:radial-gradient(circle,#46232d,#171923 70%);border-radius:9px;display:grid;place-items:center;margin-bottom:14px;overflow:hidden}
+.art img{width:100%;height:100%;object-fit:contain}
+.emoji{font-size:65px}
+.card h3{font-size:15px;margin:8px 0}
+.card p{font-size:12px;color:var(--muted)}
+.price{color:#ff6976;font-weight:bold;margin:13px 0}
+.card button{width:100%}
+.pill{font-size:10px;padding:5px 8px;background:#292d3a;border-radius:5px;color:#c6cad3}
+.pill.red{background:#461c27;color:#ff8190}
+.tabs{display:flex;gap:9px;margin:20px 0;flex-wrap:wrap}
+.tabs button{background:#171c26;color:#aaa;border:1px solid var(--line);padding:10px 15px;border-radius:7px}
+.tabs button.active{background:#451d27;border-color:#a82c3e;color:white!important}
+.inventory-row{display:flex;align-items:center;gap:15px;background:#141923;padding:13px;border:1px solid var(--line);border-radius:9px;margin:9px 0}
+.inventory-row .emoji{font-size:35px}
+.inventory-row .info{flex:1}
+.empty{padding:35px;text-align:center;color:#9299a8;background:#121721;border-radius:10px}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:15px;margin:20px 0}
+.stat{padding:20px;background:#151a24;border:1px solid var(--line);border-radius:10px}
+.stat strong{font-size:26px;display:block;margin-top:12px}
+.profile{display:flex;gap:20px;align-items:center;background:#151a24;padding:25px;border-radius:13px}
+.big-avatar{width:75px;height:75px;border-radius:18px;background:linear-gradient(135deg,#ff3349,#771d32);display:grid;place-items:center;font-size:30px;font-weight:bold}
+.notice{padding:14px;background:#171d29;border-left:3px solid var(--red);border-radius:7px;color:#abb2c0;font-size:13px;margin:20px 0}
+footer{text-align:center;color:#626b7b;padding:35px;border-top:1px solid var(--line);font-size:12px}
+.mobile-menu{display:none}
+@media(max-width:850px){nav{display:none}aside{width:65px;padding:15px 7px}.side-title{display:none}.side button{font-size:0;text-align:center;padding:15px 5px}.side button:first-letter{font-size:18px}main{padding:18px}.hero{padding:28px 20px}.hero h1{font-size:33px}}
+@media(max-width:500px){header{padding:0 12px}.logo{font-size:23px}.balance{font-size:11px;padding:9px}.layout{min-height:80vh}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.card{padding:9px}.art{height:100px}.emoji{font-size:48px}.card h3{font-size:12px}.hero h1{font-size:29px}.hero:after{font-size:65px}.section-head h2{font-size:18px}}
 </style>
 </head>
 <body>
+
 <header>
-<div class="logo">DROP<span>X</span></div>
-<nav>
-<a href="#cases">Кейсы</a>
-<a href="#inventory">Инвентарь</a>
-</nav>
-<div class="balance">Бесплатные кейсы</div>
+ <div class="logo">DROP<span>X</span></div>
+ <nav>
+  <button onclick="showPage('home')">Главная</button>
+  <button onclick="showPage('cases')">Кейсы</button>
+  <button onclick="showPage('market')">Маркет</button>
+  <button onclick="showPage('inventory')">Инвентарь</button>
+ </nav>
+ <div class="header-right">
+  <div class="balance">◆ <span id="balance">1000</span> DX</div>
+  <div class="avatar">D</div>
+ </div>
 </header>
 
-<section class="hero">
-<div class="tag">WELCOME TO DROPX</div>
-<h1>ОТКРЫВАЙ <span>КЕЙСЫ</span></h1>
-<p>Твоя GTA-коллекция начинается здесь.</p>
+<div class="layout">
+<aside>
+ <div class="side">
+  <div class="side-title">МЕНЮ</div>
+  <button class="active" data-page="home" onclick="showPage('home')">⌂ Главная</button>
+  <button data-page="cases" onclick="showPage('cases')">▣ Кейсы</button>
+  <button data-page="market" onclick="showPage('market')">◈ Маркет</button>
+  <button data-page="inventory" onclick="showPage('inventory')">▤ Инвентарь</button>
+  <div class="side-title">АККАУНТ</div>
+  <button data-page="profile" onclick="showPage('profile')">♙ Профиль</button>
+  <button data-page="bonus" onclick="showPage('bonus')">🎁 Бонусы</button>
+  <div class="side-title">ИНФОРМАЦИЯ</div>
+  <button data-page="news" onclick="showPage('news')">▤ Новости</button>
+  <button data-page="faq" onclick="showPage('faq')">? Помощь</button>
+ </div>
+</aside>
+
+<main>
+
+<section class="page active" id="home">
+ <div class="hero">
+  <div class="tag">WELCOME TO DROPX</div>
+  <h1>YOUR WORLD.<br><span>YOUR SKINS.</span></h1>
+  <p>Игровая платформа CS2 и GTA. Собирай свою коллекцию!</p>
+  <button class="primary" onclick="showPage('cases')">СМОТРЕТЬ КЕЙСЫ →</button>
+ </div>
+ <div class="section-head"><h2>🔥 Популярные предметы</h2><span class="muted">DROPX COLLECTION</span></div>
+ <div class="grid" id="featured"></div>
+ <div class="notice">DROPX — независимый фанатский проект. Предметы и DX — виртуальные, не имеют денежной стоимости и не обмениваются на реальные деньги.</div>
 </section>
 
-<main class="container">
-<div class="section-title" id="cases">
-<h2>🔥 GTA CASES</h2>
-<span>Бесплатное открытие</span>
-</div>
-<div class="grid" id="casesGrid"></div>
-
-<section class="inventory" id="inventory">
-<div class="section-title">
-<h2>🎒 Мой инвентарь</h2>
-<span id="count">0 предметов</span>
-</div>
-<div class="inventory-list" id="inventoryList">
-Пока здесь пусто. Открой свой первый кейс!
-</div>
+<section class="page" id="cases">
+ <div class="section-head"><h2>▣ Каталог кейсов</h2><span class="muted">Виртуальная коллекция</span></div>
+ <div class="tabs">
+  <button class="active" onclick="filterCases('all',this)">Все</button>
+  <button onclick="filterCases('CS2',this)">CS2</button>
+  <button onclick="filterCases('GTA',this)">GTA</button>
+ </div>
+ <div class="grid" id="caseGrid"></div>
 </section>
+
+<section class="page" id="market">
+ <div class="section-head"><h2>◈ Виртуальный маркет</h2><span class="muted">Покупка за DX</span></div>
+ <p class="muted">Выбирай предметы по фиксированной цене. Все покупки виртуальные.</p>
+ <div class="grid" id="marketGrid"></div>
+</section>
+
+<section class="page" id="inventory">
+ <div class="section-head"><h2>🎒 Мой инвентарь</h2><span class="muted" id="itemCount">0 предметов</span></div>
+ <div id="inventoryGrid"></div>
+</section>
+
+<section class="page" id="profile">
+ <div class="section-head"><h2>♙ Мой профиль</h2></div>
+ <div class="profile">
+  <div class="big-avatar">D</div>
+  <div><h2 style="margin:0">DROPX Player</h2><p class="muted">Участник DROPX</p><span class="pill red">LEVEL 1</span></div>
+ </div>
+ <div class="stat-grid">
+  <div class="stat"><span class="muted">Баланс DX</span><strong id="profileBalance">1000</strong></div>
+  <div class="stat"><span class="muted">Предметы</span><strong id="profileItems">0</strong></div>
+  <div class="stat"><span class="muted">Покупки</span><strong id="profilePurchases">0</strong></div>
+ </div>
+ <div class="notice">Это локальный демонстрационный профиль. Для настоящих аккаунтов потребуется отдельный сервер и база данных.</div>
+</section>
+
+<section class="page" id="bonus">
+ <div class="section-head"><h2>🎁 Ежедневный бонус</h2></div>
+ <div class="card" style="max-width:420px">
+  <div class="art"><div class="emoji">🎁</div></div>
+  <h3>Бесплатный ежедневный подарок</h3>
+  <p>Забери 100 виртуальных DX. Один раз в день.</p>
+  <button class="primary" id="bonusBtn" onclick="dailyBonus()">ПОЛУЧИТЬ 100 DX</button>
+ </div>
+</section>
+
+<section class="page" id="news">
+ <div class="section-head"><h2>▤ Новости DROPX</h2></div>
+ <div class="card"><span class="pill red">ОБНОВЛЕНИЕ</span><h3>Добро пожаловать в DROPX!</h3><p>Наша игровая платформа открыта. Скоро появятся новые предметы и коллекции.</p></div>
+ <div class="card" style="margin-top:12px"><span class="pill">CS2 + GTA</span><h3>Две игровые вселенные</h3><p>Собирай виртуальные предметы из двух популярных игровых миров.</p></div>
+</section>
+
+<section class="page" id="faq">
+ <div class="section-head"><h2>? Помощь и правила</h2></div>
+ <div class="card"><h3>Что такое DX?</h3><p>DX — внутренняя виртуальная единица DROPX, не являющаяся деньгами.</p></div>
+ <div class="card" style="margin-top:12px"><h3>Можно ли вывести DX?</h3><p>Нет. DX и предметы предназначены только для коллекции внутри демонстрационного сайта.</p></div>
+ <div class="card" style="margin-top:12px"><h3>Как получить предмет?</h3><p>Выбери предмет в маркете и нажми кнопку покупки. Также можно забирать бесплатные предметы из каталога.</p></div>
+</section>
+
 </main>
-
-<div class="modal" id="modal">
-<div class="modal-box">
-<div class="tag">DROPX REWARD</div>
-<h2>ТВОЙ ПРЕДМЕТ!</h2>
-<div class="reward" id="rewardIcon">🎁</div>
-<h3 id="rewardName">Предмет</h3>
-<p id="rewardDesc">Поздравляем!</p>
-<button class="close" onclick="closeModal()">ЗАКРЫТЬ</button>
-</div>
 </div>
 
-<footer>DROPX © 2026 — FAN-MADE VIRTUAL CASE COLLECTION</footer>
+<footer>DROPX © 2026 · FAN-MADE GAMING PLATFORM · NOT AFFILIATED WITH VALVE OR ROCKSTAR</footer>
 
 <script>
-const cases=[
-{name:"STARTER CASE",icon:"🎁",desc:"Начни свою коллекцию",items:["Зелёный автомобиль","Бейсболка","Уличный стиль","Спортивные очки"]},
-{name:"LOS SANTOS",icon:"🚗",desc:"Атмосфера Los Santos",items:["Спортивный автомобиль","Золотые часы","Куртка Los Santos","Неоновые очки"]},
-{name:"SUPER CASE",icon:"💎",desc:"Редкие виртуальные предметы",items:["Алмазный аксессуар","Золотая цепь","Редкий костюм","Спортивный автомобиль"]},
-{name:"LEGEND CASE",icon:"👑",desc:"Легендарная коллекция",items:["Королевская корона","Легендарный костюм","Золотой автомобиль","Редкие часы"]}
+const products=[
+{id:1,name:"AK-47 | Redline",game:"CS2",icon:"🔫",price:250,rarity:"Epic"},
+{id:2,name:"AWP | Neon",game:"CS2",icon:"🎯",price:400,rarity:"Legendary"},
+{id:3,name:"Karambit | Red",game:"CS2",icon:"🔪",price:600,rarity:"Legendary"},
+{id:4,name:"M4A1-S | Cyber",game:"CS2",icon:"🔫",price:300,rarity:"Rare"},
+{id:5,name:"Los Santos Car",game:"GTA",icon:"🏎️",price:350,rarity:"Epic"},
+{id:6,name:"Golden Watch",game:"GTA",icon:"⌚",price:180,rarity:"Rare"},
+{id:7,name:"Diamond Chain",game:"GTA",icon:"💎",price:500,rarity:"Legendary"},
+{id:8,name:"Street Outfit",game:"GTA",icon:"🧥",price:150,rarity:"Common"}
 ];
-let inventory=[];
-let opened={};
-function render(){
-document.getElementById("casesGrid").innerHTML=cases.map((c,i)=>`
-<div class="case">
-<div class="art">${c.icon}</div>
-<h3>${c.name}</h3>
-<p>${c.desc}</p>
-<button onclick="openCase(${i})">${opened[i]?"ОТКРЫТЬ ЕЩЁ":"ОТКРЫТЬ БЕСПЛАТНО"}</button>
-</div>`).join("");
+const cases=[
+{id:1,name:"RED CASE",game:"CS2",icon:"🟥",desc:"Коллекция красных предметов",price:0,reward:1},
+{id:2,name:"SNIPER CASE",game:"CS2",icon:"🎯",desc:"Снайперская коллекция",price:0,reward:2},
+{id:3,name:"KNIFE CASE",game:"CS2",icon:"🔪",desc:"Коллекция ножей",price:0,reward:3},
+{id:4,name:"LOS SANTOS",game:"GTA",icon:"🏎️",desc:"Автомобили Los Santos",price:0,reward:5},
+{id:5,name:"GOLD CASE",game:"GTA",icon:"💎",desc:"Золотая коллекция",price:0,reward:7},
+{id:6,name:"STREET CASE",game:"GTA",icon:"🧥",desc:"Уличный стиль",price:0,reward:8}
+];
+let balance=Number(localStorage.getItem("dropx_balance")??1000);
+let inventory=JSON.parse(localStorage.getItem("dropx_inventory")||"[]");
+let purchases=Number(localStorage.getItem("dropx_purchases")||0);
+let claimed=localStorage.getItem("dropx_bonus")==new Date().toDateString();
+function save(){
+ localStorage.setItem("dropx_balance",balance);
+ localStorage.setItem("dropx_inventory",JSON.stringify(inventory));
+ localStorage.setItem("dropx_purchases",purchases);
+ update();
 }
-function openCase(i){
-let items=cases[i].items;
-let item=items[Math.floor(Math.random()*items.length)];
-inventory.unshift({name:item,icon:cases[i].icon});
-opened[i]=true;
-document.getElementById("rewardIcon").textContent=cases[i].icon;
-document.getElementById("rewardName").textContent=item;
-document.getElementById("rewardDesc").textContent="Предмет добавлен в твою коллекцию!";
-document.getElementById("modal").style.display="flex";
-renderInventory();
-render();
+function update(){
+ document.getElementById("balance").textContent=balance;
+ document.getElementById("profileBalance").textContent=balance;
+ document.getElementById("profileItems").textContent=inventory.length;
+ document.getElementById("profilePurchases").textContent=purchases;
+ document.getElementById("itemCount").textContent=inventory.length+" предметов";
+ document.getElementById("bonusBtn").disabled=claimed;
+ document.getElementById("bonusBtn").textContent=claimed?"БОНУС УЖЕ ПОЛУЧЕН":"ПОЛУЧИТЬ 100 DX";
 }
-function closeModal(){
-document.getElementById("modal").style.display="none";
+function showPage(id){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
+ if(id==="inventory")renderInventory();
+ update();
+ window.scrollTo(0,0);
+}
+function productCard(p,button){
+ return `<div class="card"><div class="art"><div class="emoji">${p.icon}</div></div>
+ <span class="pill">${p.game}</span> <span class="pill red">${p.rarity}</span>
+ <h3>${p.name}</h3><div class="price">◆ ${p.price} DX</div>${button}</div>`;
+}
+function renderMarket(){
+ document.getElementById("marketGrid").innerHTML=products.map(p=>productCard(p,
+ `<button class="primary" onclick="buy(${p.id})">КУПИТЬ</button>`)).join("");
+}
+function renderFeatured(){
+ document.getElementById("featured").innerHTML=products.slice(0,4).map(p=>productCard(p,
+ `<button class="secondary" onclick="showPage('market')">ПОДРОБНЕЕ</button>`)).join("");
+}
+function filterCases(type,btn){
+ document.querySelectorAll("#cases .tabs button").forEach(b=>b.classList.remove("active"));
+ btn.classList.add("active");
+ renderCases(type);
+}
+function renderCases(type="all"){
+ let list=cases.filter(c=>type==="all"||c.game===type);
+ document.getElementById("caseGrid").innerHTML=list.map(c=>`
+ <div class="card"><div class="art"><div class="emoji">${c.icon}</div></div>
+ <span class="pill">${c.game}</span><h3>${c.name}</h3>
+ <p>${c.desc}</p><div class="price">Бесплатный предмет</div>
+ <button class="primary" onclick="claimCase(${c.id})">ЗАБРАТЬ ПРЕДМЕТ</button></div>`).join("");
+}
+function claimCase(id){
+ let c=cases.find(x=>x.id===id);
+ let key="dropx_case_"+id+"_"+new Date().toDateString();
+ if(localStorage.getItem(key)){alert("Ты уже забрал предмет из этого набора сегодня.");return}
+ let p=products.find(x=>x.id===c.reward);
+ inventory.push({...p,uid:Date.now()});
+ localStorage.setItem(key,"yes");
+ save();
+ alert("Предмет добавлен в инвентарь: "+p.name);
+}
+function buy(id){
+ let p=products.find(x=>x.id===id);
+ if(balance<p.price){alert("Недостаточно DX. Получи ежедневный бонус.");return}
+ balance-=p.price;
+ inventory.push({...p,uid:Date.now()});
+ purchases++;
+ save();
+ alert("Предмет добавлен в твой инвентарь!");
 }
 function renderInventory(){
-document.getElementById("count").textContent=inventory.length+" предметов";
-document.getElementById("inventoryList").innerHTML=inventory.length?
-inventory.map(x=>`<div style="padding:12px;border-bottom:1px solid #30333e">${x.icon} ${x.name}</div>`).join(""):
-"Пока здесь пусто. Открой свой первый кейс!";
+ let el=document.getElementById("inventoryGrid");
+ if(!inventory.length){el.innerHTML='<div class="empty">🎒<br><br>Инвентарь пуст.<br>Загляни в маркет или забери бесплатный предмет!</div>';return}
+ el.innerHTML=inventory.map(p=>`
+ <div class="inventory-row"><div class="emoji">${p.icon}</div>
+ <div class="info"><b>${p.name}</b><p class="muted">${p.game} · ${p.rarity}</p></div>
+ <span class="pill">В коллекции</span></div>`).join("");
 }
-render();
+function dailyBonus(){
+ if(claimed)return;
+ claimed=true;balance+=100;
+ localStorage.setItem("dropx_bonus",new Date().toDateString());
+ save();
+ alert("Ты получил 100 DX!");
+}
+renderFeatured();
+renderMarket();
+renderCases();
+renderInventory();
+update();
 </script>
 </body>
 </html>
-
